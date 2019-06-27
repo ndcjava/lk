@@ -60,25 +60,7 @@ public class AddressServiceImpl extends HmBaseService<CartAddressBean, Integer> 
             cartAddressResultDTO = this.dao.executeSelectOneMethod(
                     cartAddressQueryDTO,"findAddressByid", CartAddressResultDTO.class);
         }
-        if (cartAddressResultDTO != null) {
-            //地址的经度纬度
-            double latitude = Double.parseDouble(cartAddressResultDTO.getLatitude());
-            double longitude = Double.parseDouble(cartAddressResultDTO.getLongitude());
-
-            //获取菜场经纬度
-            CartMarketBean findMarketById = this.marketBean.executeSelectOneMethod(cartAddressQueryDTO.getMarketId(), "findMarketById", CartMarketBean.class);
-            //菜场经纬度
-            double latitude1 = Double.parseDouble(findMarketById.getLatitude());
-            double longitude1 = Double.parseDouble(findMarketById.getLongitude());
-            double distance = DistanceUtils.getDistance(longitude, latitude, longitude1, latitude1);
-            if (distance <= 3.6) {
-                return cartAddressResultDTO;
-            }else{
-                return null;
-            }
-        } else {
-            return null;
-        }
+        return cartAddressResultDTO;
     }
 
     @Override
@@ -107,22 +89,6 @@ public class AddressServiceImpl extends HmBaseService<CartAddressBean, Integer> 
             cartAddressResultDTO = this.dao.executeSelectOneMethod(
                     cartAddressQueryDTO,"findAddressByid", CartAddressResultDTO.class);
         }
-        if (cartAddressResultDTO != null) {
-            //地址的经度纬度
-            double latitude = Double.parseDouble(cartAddressResultDTO.getLatitude());
-            double longitude = Double.parseDouble(cartAddressResultDTO.getLongitude());
-            //商户经纬度
-            Map<String, Object> storeAddress = storeAddressDao.getStoreAddress(sid);
-            double longitude1 = Double.parseDouble((String) storeAddress.get("longitude"));
-            double latitude1 = Double.parseDouble((String) storeAddress.get("latitude"));
-            double distance = DistanceUtils.getDistance(longitude, latitude, longitude1, latitude1);
-            if (distance <= 0.5) {
-                return cartAddressResultDTO;
-            }else{
-                return null;
-            }
-        } else {
-            return null;
-        }
+        return cartAddressResultDTO;
 	}
 }
