@@ -23,6 +23,6 @@
             show_type = 1
         AND STATUS = 0
         ORDER BY
-            'order' ASC
+            `order` ASC
     </select>
 </mapper>

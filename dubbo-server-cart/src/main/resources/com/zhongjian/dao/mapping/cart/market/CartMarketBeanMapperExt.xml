@@ -40,7 +40,7 @@
 
     <select id="findMarketList" resultMap="BaseMarketResultInfo">
         select
-         id, ename, ctime, market_pic, state, 'order'
+         id, ename, ctime, market_pic, state, `order`
         from hm_market
         where state=1
         order by 'order' ASC
