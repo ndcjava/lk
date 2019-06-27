@@ -14,13 +14,13 @@ import java.util.List;
  * @Author: ldd
  */
 @Service
-public class CartAdvServiceImpl extends HmBaseService<CartAdvBean, Integer> implements CartAdvService{
+public class CartAdvServiceImpl extends HmBaseService<CartAdvBean, Integer> implements CartAdvService {
 
     @Override
-    public ResultDTO<Object> queryList() {
+    public List<CartAdvResultDTO> queryList() {
 
         List<CartAdvResultDTO> queryList = this.dao.executeListMethod(null, "queryList", CartAdvResultDTO.class);
 
-        return ResultUtil.getSuccess(queryList);
+        return queryList;
     }
 }

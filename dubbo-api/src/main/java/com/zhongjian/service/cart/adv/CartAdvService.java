@@ -14,7 +14,7 @@ public interface CartAdvService {
     /**
      * 查询列表
      */
-    ResultDTO<Object> queryList();
+    List<CartAdvResultDTO> queryList();
 
 
 }

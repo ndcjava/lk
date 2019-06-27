@@ -19,10 +19,10 @@ public class CartMarketServiceImpl extends HmBaseService<CartMarketBean, Integer
 
 
     @Override
-    public ResultDTO<Object> queryList() {
+    public List<CartMarketListResultDTO> queryList() {
 
         List<CartMarketListResultDTO> findMarketList = this.dao.executeListMethod(null, "findMarketList", CartMarketListResultDTO.class);
 
-        return ResultUtil.getSuccess(findMarketList);
+        return findMarketList;
     }
 }

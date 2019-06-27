@@ -30,11 +30,11 @@ import java.util.Map;
  * @Author: ldd
  */
 @WebServlet(value = "/v1/cart/list", asyncSupported = true)
-public class CartAdcMarketListServlet {
+public class CartAdvMarketListServlet {
 
     private static final long serialVersionUID = 1L;
 
-    private static Logger log = Logger.getLogger(CartAdcMarketListServlet.class);
+    private static Logger log = Logger.getLogger(CartAdvMarketListServlet.class);
 
     private CartAdvService cartAdvService = (CartAdvService) SpringContextHolder.getBean(CartAdvService.class);
 
@@ -56,7 +56,7 @@ public class CartAdcMarketListServlet {
                 ThreadPoolExecutorSingle.executor.execute(() -> {
                     String result = GsonUtil.GsonString(ResultUtil.getFail(CommonMessageEnum.SERVERERR));
                     try {
-                        result = CartAdcMarketListServlet.this.handle();
+                        result = CartAdvMarketListServlet.this.handle();
                         // 返回数据
 
                         ResponseHandle.wrappedResponse(asyncContext.getResponse(), result);
@@ -82,10 +82,10 @@ public class CartAdcMarketListServlet {
 
     private String handle() {
         Map<String, Object> map = new HashMap<>();
-        ResultDTO<Object> advService = cartAdvService.queryList();
-        ResultDTO<Object> marketService = cartMarketService.queryList();
-        map.put("adv", advService);
-        map.put("market", marketService);
+        List<CartAdvResultDTO> cartAdvResultDTOS = cartAdvService.queryList();
+        List<CartMarketListResultDTO> cartMarketListResultDTOS = cartMarketService.queryList();
+        map.put("adv", cartAdvResultDTOS);
+        map.put("market", cartMarketListResultDTOS);
         return GsonUtil.GsonString(ResultUtil.getSuccess(map));
     }
 }
