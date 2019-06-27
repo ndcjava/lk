@@ -29,16 +29,6 @@ public class UserBean {
     private String nick;
 
     /**
-     * 网易ID
-     */
-    private String accid;
-
-    /**
-     * 
-     */
-    private String token;
-
-    /**
      * 用户积分
      */
     private Integer integral;
@@ -59,7 +49,7 @@ public class UserBean {
     private Byte status;
 
     /**
-     * 
+     * 盐
      */
     private String salt;
 
@@ -79,14 +69,9 @@ public class UserBean {
     private Integer parentId;
 
     /**
-     * 微信openid
+     * 微信unionid
      */
-    private String openid;
-
-    /**
-     * 小程序openid
-     */
-    private String appletsOpenid;
+    private String unionid;
 
     /**
      * 0外部1内部
@@ -101,17 +86,7 @@ public class UserBean {
     /**
      * 
      */
-    private String visitTime;
-
-    /**
-     * 
-     */
     private String loginToken;
-
-    /**
-     * 网易云信Token
-     */
-    private String yxToken;
 
     /**
      * VIP激活状态
@@ -139,9 +114,9 @@ public class UserBean {
     private Integer vipStop;
 
     /**
-     * 未提现VIP推广奖励
+     * 累计VIP推广奖励
      */
-    private BigDecimal vipPromotionRewardover;
+    private BigDecimal vipPromotionReward;
 
     /**
      * 已提现VIP推广奖励
@@ -149,14 +124,14 @@ public class UserBean {
     private BigDecimal vipPromotionRewardget;
 
     /**
-     * VIP推广奖励
+     * 未提现VIP推广奖励
      */
-    private BigDecimal vipPromotionReward;
+    private BigDecimal vipPromotionRewardover;
 
     /**
-     * 公众号openid
+     * 微信小程序openid
      */
-    private String publicOpenid;
+    private String appletsOpenid;
 
     /**
      * 
@@ -239,38 +214,6 @@ public class UserBean {
     }
 
     /**
-     * 网易ID
-     * @return accid 网易ID
-     */
-    public String getAccid() {
-        return accid;
-    }
-
-    /**
-     * 网易ID
-     * @param accid 网易ID
-     */
-    public void setAccid(String accid) {
-        this.accid = accid == null ? null : accid.trim();
-    }
-
-    /**
-     * 
-     * @return token 
-     */
-    public String getToken() {
-        return token;
-    }
-
-    /**
-     * 
-     * @param token 
-     */
-    public void setToken(String token) {
-        this.token = token == null ? null : token.trim();
-    }
-
-    /**
      * 用户积分
      * @return integral 用户积分
      */
@@ -335,16 +278,16 @@ public class UserBean {
     }
 
     /**
-     * 
-     * @return salt 
+     * 盐
+     * @return salt 盐
      */
     public String getSalt() {
         return salt;
     }
 
     /**
-     * 
-     * @param salt 
+     * 盐
+     * @param salt 盐
      */
     public void setSalt(String salt) {
         this.salt = salt == null ? null : salt.trim();
@@ -399,35 +342,19 @@ public class UserBean {
     }
 
     /**
-     * 微信openid
-     * @return openid 微信openid
+     * 微信unionid
+     * @return unionid 微信unionid
      */
-    public String getOpenid() {
-        return openid;
+    public String getUnionid() {
+        return unionid;
     }
 
     /**
-     * 微信openid
-     * @param openid 微信openid
+     * 微信unionid
+     * @param unionid 微信unionid
      */
-    public void setOpenid(String openid) {
-        this.openid = openid == null ? null : openid.trim();
-    }
-
-    /**
-     * 小程序openid
-     * @return applets_openid 小程序openid
-     */
-    public String getAppletsOpenid() {
-        return appletsOpenid;
-    }
-
-    /**
-     * 小程序openid
-     * @param appletsOpenid 小程序openid
-     */
-    public void setAppletsOpenid(String appletsOpenid) {
-        this.appletsOpenid = appletsOpenid == null ? null : appletsOpenid.trim();
+    public void setUnionid(String unionid) {
+        this.unionid = unionid == null ? null : unionid.trim();
     }
 
     /**
@@ -464,22 +391,6 @@ public class UserBean {
 
     /**
      * 
-     * @return visit_time 
-     */
-    public String getVisitTime() {
-        return visitTime;
-    }
-
-    /**
-     * 
-     * @param visitTime 
-     */
-    public void setVisitTime(String visitTime) {
-        this.visitTime = visitTime == null ? null : visitTime.trim();
-    }
-
-    /**
-     * 
      * @return login_token 
      */
     public String getLoginToken() {
@@ -492,22 +403,6 @@ public class UserBean {
      */
     public void setLoginToken(String loginToken) {
         this.loginToken = loginToken == null ? null : loginToken.trim();
-    }
-
-    /**
-     * 网易云信Token
-     * @return yx_token 网易云信Token
-     */
-    public String getYxToken() {
-        return yxToken;
-    }
-
-    /**
-     * 网易云信Token
-     * @param yxToken 网易云信Token
-     */
-    public void setYxToken(String yxToken) {
-        this.yxToken = yxToken == null ? null : yxToken.trim();
     }
 
     /**
@@ -591,19 +486,19 @@ public class UserBean {
     }
 
     /**
-     * 未提现VIP推广奖励
-     * @return vip_promotion_rewardover 未提现VIP推广奖励
+     * 累计VIP推广奖励
+     * @return vip_promotion_reward 累计VIP推广奖励
      */
-    public BigDecimal getVipPromotionRewardover() {
-        return vipPromotionRewardover;
+    public BigDecimal getVipPromotionReward() {
+        return vipPromotionReward;
     }
 
     /**
-     * 未提现VIP推广奖励
-     * @param vipPromotionRewardover 未提现VIP推广奖励
+     * 累计VIP推广奖励
+     * @param vipPromotionReward 累计VIP推广奖励
      */
-    public void setVipPromotionRewardover(BigDecimal vipPromotionRewardover) {
-        this.vipPromotionRewardover = vipPromotionRewardover;
+    public void setVipPromotionReward(BigDecimal vipPromotionReward) {
+        this.vipPromotionReward = vipPromotionReward;
     }
 
     /**
@@ -623,34 +518,34 @@ public class UserBean {
     }
 
     /**
-     * VIP推广奖励
-     * @return vip_promotion_reward VIP推广奖励
+     * 未提现VIP推广奖励
+     * @return vip_promotion_rewardover 未提现VIP推广奖励
      */
-    public BigDecimal getVipPromotionReward() {
-        return vipPromotionReward;
+    public BigDecimal getVipPromotionRewardover() {
+        return vipPromotionRewardover;
     }
 
     /**
-     * VIP推广奖励
-     * @param vipPromotionReward VIP推广奖励
+     * 未提现VIP推广奖励
+     * @param vipPromotionRewardover 未提现VIP推广奖励
      */
-    public void setVipPromotionReward(BigDecimal vipPromotionReward) {
-        this.vipPromotionReward = vipPromotionReward;
+    public void setVipPromotionRewardover(BigDecimal vipPromotionRewardover) {
+        this.vipPromotionRewardover = vipPromotionRewardover;
     }
 
     /**
-     * 公众号openid
-     * @return public_openid 公众号openid
+     * 微信小程序openid
+     * @return applets_openid 微信小程序openid
      */
-    public String getPublicOpenid() {
-        return publicOpenid;
+    public String getAppletsOpenid() {
+        return appletsOpenid;
     }
 
     /**
-     * 公众号openid
-     * @param publicOpenid 公众号openid
+     * 微信小程序openid
+     * @param appletsOpenid 微信小程序openid
      */
-    public void setPublicOpenid(String publicOpenid) {
-        this.publicOpenid = publicOpenid == null ? null : publicOpenid.trim();
+    public void setAppletsOpenid(String appletsOpenid) {
+        this.appletsOpenid = appletsOpenid == null ? null : appletsOpenid.trim();
     }
 }

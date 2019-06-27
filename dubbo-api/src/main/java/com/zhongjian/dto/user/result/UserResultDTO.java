@@ -39,16 +39,6 @@ public class UserResultDTO implements Serializable{
     private String nick;
 
     /**
-     * 网易ID
-     */
-    private String accid;
-
-    /**
-     *
-     */
-    private String token;
-
-    /**
      * 用户积分
      */
     private Integer integral;
@@ -69,7 +59,7 @@ public class UserResultDTO implements Serializable{
     private Byte status;
 
     /**
-     *
+     * 盐
      */
     private String salt;
 
@@ -89,14 +79,9 @@ public class UserResultDTO implements Serializable{
     private Integer parentId;
 
     /**
-     * 微信openid
+     * 微信unionid
      */
-    private String openid;
-
-    /**
-     * 小程序openid
-     */
-    private String appletsOpenid;
+    private String unionid;
 
     /**
      * 0外部1内部
@@ -111,17 +96,7 @@ public class UserResultDTO implements Serializable{
     /**
      *
      */
-    private String visitTime;
-
-    /**
-     *
-     */
     private String loginToken;
-
-    /**
-     * 网易云信Token
-     */
-    private String yxToken;
 
     /**
      * VIP激活状态
@@ -149,9 +124,9 @@ public class UserResultDTO implements Serializable{
     private Integer vipStop;
 
     /**
-     * 未提现VIP推广奖励
+     * 累计VIP推广奖励
      */
-    private BigDecimal vipPromotionRewardover;
+    private BigDecimal vipPromotionReward;
 
     /**
      * 已提现VIP推广奖励
@@ -159,12 +134,12 @@ public class UserResultDTO implements Serializable{
     private BigDecimal vipPromotionRewardget;
 
     /**
-     * VIP推广奖励
+     * 未提现VIP推广奖励
      */
-    private BigDecimal vipPromotionReward;
+    private BigDecimal vipPromotionRewardover;
 
     /**
-     * 公众号openid
+     * 微信小程序openid
      */
-    private String publicOpenid;
+    private String appletsOpenid;
 }
