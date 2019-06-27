@@ -31,4 +31,8 @@ public class CartAdvResultDTO implements Serializable {
      * 地址
      */
     private String url;
+    /**
+     * 商品id
+     */
+    private Integer gid;
 }

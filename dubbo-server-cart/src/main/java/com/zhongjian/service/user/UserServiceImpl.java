@@ -144,4 +144,16 @@ public class UserServiceImpl extends HmBaseService<UserBean, Integer> implements
 		return findCouponByUid;
 
 	}
+
+	@Override
+	public Map<String, Object> wxAppletLogin(String code, String headPic, String nickName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Map<String, Object> wxAppletLogin(String code, String headPic, String nickName, Integer shareId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

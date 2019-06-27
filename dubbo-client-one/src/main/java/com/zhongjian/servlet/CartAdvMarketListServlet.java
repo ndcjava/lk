@@ -29,7 +29,7 @@ import java.util.Map;
 /**
  * @Author: ldd
  */
-@WebServlet(value = "/v1/cart/list", asyncSupported = true)
+@WebServlet(value = "/v1/home/init", asyncSupported = true)
 public class CartAdvMarketListServlet {
 
     private static final long serialVersionUID = 1L;
@@ -66,7 +66,7 @@ public class CartAdvMarketListServlet {
                         } catch (IOException e1) {
                             e1.printStackTrace();
                         }
-                        log.error("fail order/cancel : " + e.getMessage());
+                        log.error("fail home/init : " + e.getMessage());
                     }
                     asyncContext.complete();
                 });

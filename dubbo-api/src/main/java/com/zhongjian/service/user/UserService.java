@@ -5,6 +5,7 @@ import com.zhongjian.dto.user.result.UserCopResultDTO;
 import com.zhongjian.dto.user.result.UserResultDTO;
 
 import java.util.List;
+import java.util.Map;
 
 public interface UserService {
 	/**
@@ -36,6 +37,23 @@ public interface UserService {
 	 * @return
 	 */
 	List<UserCopResultDTO> getCVCouponByUid(UserQueryDTO userQueryDTO);
+	
+	/**
+	 * 微信小程序登录
+	 * @param code
+	 * @param headPic
+	 * @param nickName
+	 * @return Map {"id":1,"login_token":""}
+	 */
+	Map<String,Object> wxAppletLogin(String code,String headPic,String nickName);
 
-
+	/**
+	 * 微信小程序登录
+	 * @param code
+	 * @param headPic
+	 * @param nickName
+	 * @param shareId
+	 * @return Map {"id":1,"login_token":""}
+	 */
+	Map<String,Object> wxAppletLogin(String code,String headPic,String nickName,Integer shareId);
 }
