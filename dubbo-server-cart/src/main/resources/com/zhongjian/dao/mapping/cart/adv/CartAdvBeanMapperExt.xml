@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhongjian.dao.entity.cart.adv.CartAdvBean" >
+
+    <resultMap id="BaseAdvInfo" type="com.zhongjian.dto.adv.result.CartAdvResultDTO">
+        <result column="adv_type" property="advType" jdbcType="INTEGER"/>
+        <result column="title" property="title" jdbcType="INTEGER"/>
+        <result column="pic" property="pic" jdbcType="VARCHAR"/>
+        <result column="url" property="url" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="queryList" resultMap="BaseAdvInfo">
+        SELECT
+            adv_type,
+            title,
+            pic,
+            url
+        FROM
+            hm_adv
+        WHERE
+            show_type = 1
+        AND STATUS = 0
+        ORDER BY
+            'order' ASC
+    </select>
+</mapper>
