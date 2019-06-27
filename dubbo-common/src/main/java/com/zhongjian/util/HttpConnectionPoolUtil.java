@@ -4,10 +4,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InterruptedIOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URLEncoder;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TimerTask;
 import java.util.concurrent.Executors;
@@ -20,6 +24,7 @@ import javax.net.ssl.SSLHandshakeException;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpEntityEnclosingRequest;
+import org.apache.http.HttpHeaders;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpRequest;
 import org.apache.http.NameValuePair;
@@ -28,6 +33,7 @@ import org.apache.http.client.HttpRequestRetryHandler;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.protocol.HttpClientContext;
@@ -44,6 +50,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HttpContext;
+import org.apache.http.util.EntityUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -192,7 +199,72 @@ public class HttpConnectionPoolUtil {
 			e.printStackTrace();
 		}
 	}
+	  /**
+     * Get请求方式
+     *
+     * @param url
+     *            请求URL
+     * @param params
+     *            参数
+     * @param contentType
+     *            格式
+     * @param userAgent
+     *            UA
+     * @param encoding
+     *            编码
+     * @return
+     */
+    public static String get(String url, Map<String, String> params, String contentType, String encoding) {
+        String data = "";
+        HttpGet httpGet = new HttpGet();
+        CloseableHttpResponse response = null;
+        try {
+            StringBuilder sb = new StringBuilder();
+            sb.append(url);
+            boolean first = true;
+            if (params != null) {
+                for (Entry<String, String> entry : params.entrySet()) {
+                    if (first && !url.contains("?")) {
+                        sb.append("?");
+                    } else {
+                        sb.append("&");
+                    }
+                    sb.append(entry.getKey());
+                    sb.append("=");
+                    String value = entry.getValue();
+                    sb.append(URLEncoder.encode(value, "UTF-8"));
+                    first = false;
+                }
+            }
 
+            // LOG.info("[HttpPoolUtils Get] begin invoke:" + sb.toString());
+            httpGet.setURI(new URI(sb.toString()));
+            setRequestConfig(httpGet);
+            if (contentType != null && contentType != "") {
+                httpGet.setHeader(HttpHeaders.CONTENT_TYPE, contentType);
+            } else {
+                httpGet.setHeader(HttpHeaders.CONTENT_TYPE, "text/html");
+            }
+                httpGet.setHeader(HttpHeaders.USER_AGENT, "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.75 Safari/537.36");
+
+            response = getHttpClient(url).execute(httpGet);
+            HttpEntity entity = response.getEntity();
+            if (entity != null) {
+                data = EntityUtils.toString(entity, encoding);
+            }
+        } catch (Exception e) {
+        } finally {
+            if (response != null) {
+                try {
+                    EntityUtils.consume(response.getEntity());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            httpGet.reset();
+        }
+        return data;
+    }
 	public static String post(String url, Map<String, String> params) {
 		HttpPost httpPost = new HttpPost(url);
 		setRequestConfig(httpPost);

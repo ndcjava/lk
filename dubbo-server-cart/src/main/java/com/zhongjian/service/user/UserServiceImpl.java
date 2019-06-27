@@ -1,11 +1,15 @@
 package com.zhongjian.service.user;
 
+import com.alibaba.fastjson.JSONObject;
+import com.zhongjian.commoncomponent.PropUtil;
 import com.zhongjian.dao.entity.cart.user.UserBean;
 import com.zhongjian.dao.framework.impl.HmBaseService;
 import com.zhongjian.dao.jdbctemplate.CouponDao;
+import com.zhongjian.dto.message.result.MessageResParamDTO;
 import com.zhongjian.dto.user.query.UserQueryDTO;
 import com.zhongjian.dto.user.result.UserCopResultDTO;
 import com.zhongjian.dto.user.result.UserResultDTO;
+import com.zhongjian.util.HttpConnectionPoolUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +31,9 @@ public class UserServiceImpl extends HmBaseService<UserBean, Integer> implements
 	@Autowired
 	private CouponDao couponDao;
 
+	@Autowired
+	private PropUtil propUtil;
+	
 	@Override
 	public Integer getUidByLoginToken(String loginToken) {
 
@@ -147,13 +155,56 @@ public class UserServiceImpl extends HmBaseService<UserBean, Integer> implements
 
 	@Override
 	public Map<String, Object> wxAppletLogin(String code, String headPic, String nickName) {
-		// TODO Auto-generated method stub
+		String url = "https://api.weixin.qq.com/sns/jscode2session";          
+		HashMap<String, String> params = new HashMap<String, String>();
+		params.put("appid", propUtil.getWxAppLetsId());
+		params.put("secret", propUtil.getWxAppletsSecret());
+		params.put("js_code", code);
+		params.put("grant_type", "authorization_code");
+		String data = HttpConnectionPoolUtil.get(url, params, null, "utf-8");
+		WxLoginInfo wxLoginInfo = JSONObject.parseObject(data, WxLoginInfo.class);
+		String unionid = wxLoginInfo.getUnionid();
+		String openid = wxLoginInfo.getOpenid();
 		return null;
 	}
 
 	@Override
 	public Map<String, Object> wxAppletLogin(String code, String headPic, String nickName, Integer shareId) {
-		// TODO Auto-generated method stub
+		String url = "https://api.weixin.qq.com/sns/jscode2session";          
+		HashMap<String, String> params = new HashMap<String, String>();
+		params.put("appid", propUtil.getWxAppLetsId());
+		params.put("secret", propUtil.getWxAppletsSecret());
+		params.put("js_code", code);
+		params.put("grant_type", "authorization_code");
+		String data = HttpConnectionPoolUtil.get(url, params, null, "utf-8");
+		WxLoginInfo wxLoginInfo = JSONObject.parseObject(data, WxLoginInfo.class);
+		String unionid = wxLoginInfo.getUnionid();
+		String openid = wxLoginInfo.getOpenid();
 		return null;
+	}
+	
+	static class WxLoginInfo{
+		private String openid;
+		private String session_key;
+		private String unionid;
+		public String getOpenid() {
+			return openid;
+		}
+		public void setOpenid(String openid) {
+			this.openid = openid;
+		}
+		public String getSession_key() {
+			return session_key;
+		}
+		public void setSession_key(String session_key) {
+			this.session_key = session_key;
+		}
+		public String getUnionid() {
+			return unionid;
+		}
+		public void setUnionid(String unionid) {
+			this.unionid = unionid;
+		}
+		
 	}
 }
