@@ -5,11 +5,11 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.zhongjian</groupId>
-		<artifactId>alldubbo</artifactId>
+		<artifactId>lk</artifactId>
 		<version>1.0-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>dubbo-server-pay</artifactId>
+	<artifactId>pay</artifactId>
 	<packaging>jar</packaging>
 
 	<name>dubbo-server-pay</name>
@@ -17,7 +17,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.zhongjian</groupId>
-			<artifactId>dubbo-api</artifactId>
+			<artifactId>api</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
@@ -63,7 +63,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.zhongjian</groupId>
-			<artifactId>dubbo-common</artifactId>
+			<artifactId>common</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 			<dependency>
