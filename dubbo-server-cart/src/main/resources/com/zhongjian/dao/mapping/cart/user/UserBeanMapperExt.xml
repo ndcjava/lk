@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhongjian.dao.entity.cart.user.UserBean">
+
+    <select id="findUserByLoginToken" parameterType="java.lang.String" resultType="java.lang.Integer">
+          select
+          id
+          from hm_user
+          where login_token =#{loginToken,jdbcType=VARCHAR} and status=1
+    </select>
+
+    <resultMap id="BaseResultMapExt" type="com.zhongjian.dto.user.result.UserResultDTO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="user_type" property="userType" jdbcType="INTEGER"/>
+        <result column="nick" property="nick" jdbcType="VARCHAR"/>
+        <result column="accid" property="accid" jdbcType="VARCHAR"/>
+        <result column="token" property="token" jdbcType="VARCHAR"/>
+        <result column="integral" property="integral" jdbcType="INTEGER"/>
+        <result column="pic" property="pic" jdbcType="VARCHAR"/>
+        <result column="ctime" property="ctime" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="TINYINT"/>
+        <result column="salt" property="salt" jdbcType="VARCHAR"/>
+        <result column="prizetimes" property="prizetimes" jdbcType="INTEGER"/>
+        <result column="late_marketid" property="lateMarketid" jdbcType="INTEGER"/>
+        <result column="parent_id" property="parentId" jdbcType="INTEGER"/>
+        <result column="openid" property="openid" jdbcType="VARCHAR"/>
+        <result column="applets_openid" property="appletsOpenid" jdbcType="VARCHAR"/>
+        <result column="is_inside" property="isInside" jdbcType="INTEGER"/>
+        <result column="share_id" property="shareId" jdbcType="INTEGER"/>
+        <result column="visit_time" property="visitTime" jdbcType="VARCHAR"/>
+        <result column="login_token" property="loginToken" jdbcType="VARCHAR"/>
+        <result column="yx_token" property="yxToken" jdbcType="VARCHAR"/>
+        <result column="vip_status" property="vipStatus" jdbcType="INTEGER"/>
+        <result column="vip_level" property="vipLevel" jdbcType="INTEGER"/>
+        <result column="vip_start" property="vipStart" jdbcType="INTEGER"/>
+        <result column="vip_expire" property="vipExpire" jdbcType="INTEGER"/>
+        <result column="vip_stop" property="vipStop" jdbcType="INTEGER"/>
+        <result column="vip_promotion_rewardover" property="vipPromotionRewardover" jdbcType="DECIMAL"/>
+        <result column="vip_promotion_rewardget" property="vipPromotionRewardget" jdbcType="DECIMAL"/>
+        <result column="vip_promotion_reward" property="vipPromotionReward" jdbcType="DECIMAL"/>
+        <result column="public_openid" property="publicOpenid" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="findUserById" parameterType="java.lang.Integer"
+            resultMap="BaseResultMapExt">
+        select
+        <include refid="Base_Column_List"/>
+
+        from hm_user
+        where id =#{id,jdbcType=INTEGER}
+    </select>
+
+
+    <update id="updateMarketIdById" parameterType="com.zhongjian.dto.cart.address.query.CartAddressQueryDTO">
+        update hm_user set late_marketid=#{marketId,jdbcType=INTEGER}
+    </update>
+
+    <resultMap id="BaseCoupon" type="com.zhongjian.dto.user.result.UserCopResultDTO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="coupon" property="coupon" jdbcType="DECIMAL"/>
+        <result column="mongoid" property="mongoId" jdbcType="VARCHAR"/>
+        <result column="start_time" property="starttime" jdbcType="INTEGER"/>
+        <result column="end_time" property="endtime" jdbcType="INTEGER"/>
+
+    </resultMap>
+    <select id="findCouponByUidModelOne" parameterType="java.lang.Integer" resultMap="BaseCoupon">
+            SELECT
+                uc.price coupon,
+                uc.coupon mongoid,
+                uc.id,
+                uc.start_time,
+                uc.end_time
+            FROM
+                hm_user_coupon uc
+            WHERE
+                uc.state = 0
+            AND uc.uid = #{uid,jdbcType=INTEGER}
+            AND uc.model = 1
+            order by uc.end_time asc,uc.price desc
+    </select>
+
+    <select id="findCouponByUidModelTWO" parameterType="java.lang.Integer" resultMap="BaseCoupon">
+            SELECT
+                uc.price coupon,
+                uc.coupon mongoid,
+                uc.id,
+                uc.start_time,
+                uc.end_time
+            FROM
+                hm_user_coupon uc
+            WHERE
+                uc.state = 0
+            AND uc.uid = #{uid,jdbcType=INTEGER}
+            AND uc.model = 2
+            order by uc.end_time asc,uc.price desc
+    </select>
+</mapper>
+
+
+

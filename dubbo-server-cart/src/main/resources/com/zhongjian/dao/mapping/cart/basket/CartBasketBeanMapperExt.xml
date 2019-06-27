@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhongjian.dao.entity.cart.basket.CartBasketBean">
+
+    <select id="findBasketBeanById" parameterType="com.zhongjian.dao.cart.CartParamDTO" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from hm_basket
+        <where>
+            <if test="gid!=null">
+                gid=#{gid,jdbcType=INTEGER}
+            </if>
+            <if test="uid!=null ">
+                AND uid=#{uid,jdbcType=INTEGER}
+            </if>
+            <if test="sid!=null">
+                AND sid=#{sid,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectBasketBeanById" parameterType="com.zhongjian.dao.cart.CartParamDTO"
+            resultType="com.zhongjian.dto.cart.basket.result.CartBasketResultDTO">
+        select
+        <include refid="Base_Column_List"/>
+        from hm_basket
+        where uid=#{uid,jdbcType=INTEGER} AND
+        sid=#{sid,jdbcType=INTEGER}
+    </select>
+
+    <select id="selectBasketInfoById" parameterType="com.zhongjian.dao.cart.CartParamDTO"
+            resultType="com.zhongjian.dao.entity.cart.basket.CartBasketBean">
+        select
+        <include refid="Base_Column_List"/>
+        from hm_basket
+        where id=#{id,jdbcType=INTEGER} AND
+        uid=#{uid,jdbcType=INTEGER}
+    </select>
+
+    <delete id="deleteBeanById" parameterType="com.zhongjian.dto.cart.basket.query.CartBasketDelQueryDTO">
+        DELETE FROM
+        hm_basket
+        <where>
+            <if test="id!=null">
+                id = #{id,jdbcType=INTEGER}
+            </if>
+            <if test="uid!=null">
+                and uid =#{uid,jdbcType=INTEGER}
+            </if>
+            <if test="sid!=null">
+                and sid=#{sid,jdbcType=INTEGER}
+            </if>
+        </where>
+    </delete>
+
+    <resultMap id="BaseBasketInfoMap" type="com.zhongjian.dto.cart.basket.result.CartBasketResultDTO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="amount" property="amount" jdbcType="VARCHAR"/>
+        <result column="gid" property="gid" jdbcType="INTEGER"/>
+        <result column="price" property="totalPrice" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="unitPrice" property="unitPrice" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <select id="findBasketById" parameterType="com.zhongjian.dto.cart.basket.query.CartBasketListQueryDTO"
+            resultMap="BaseBasketInfoMap">
+       SELECT
+            id,
+            amount,
+            gid,
+            price,
+            remark,
+            unitPrice
+        FROM
+            hm_basket
+        where
+          sid =#{sid,jdbcType=INTEGER}
+         and uid =#{uid,jdbcType=INTEGER}
+    </select>
+
+    <delete id="deleteInfoBySids" parameterType="com.zhongjian.dto.cart.basket.query.CartBasketDelQueryDTO">
+        DELETE FROM
+        hm_basket
+        where
+        uid =#{uid,jdbcType=INTEGER}
+        and sid IN
+        <foreach collection="sids" item="item" index="no" open="("
+                 separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <delete id="deleteGoodsOnShelves" parameterType="java.lang.Integer">
+          DELETE b.*
+            FROM
+                hm_basket b
+            LEFT JOIN hm_goods g ON b.gid = g.id
+            WHERE
+                b.uid = #{uid,jdbcType=INTEGER}
+            AND (g.state = 1 OR g.is_delete = 1 OR (g.state IS NULL AND b.gid != 0))
+    </delete>
+
+
+</mapper>
