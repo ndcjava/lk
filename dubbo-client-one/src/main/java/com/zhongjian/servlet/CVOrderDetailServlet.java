@@ -26,7 +26,7 @@ import com.zhongjian.service.order.OrderDetailsService;
 import java.io.IOException;
 import java.util.Map;
 
-@WebServlet(value = "/v1/order/orderlist", asyncSupported = true)
+@WebServlet(value = "/v1/order/cvorderDetail", asyncSupported = true)
 public class CVOrderDetailServlet extends HttpServlet {
 
 	/**
