@@ -7,7 +7,6 @@ import com.zhongjian.common.SpringContextHolder;
 import com.zhongjian.dto.adv.result.CartAdvResultDTO;
 import com.zhongjian.dto.cart.market.result.CartMarketListResultDTO;
 import com.zhongjian.dto.common.CommonMessageEnum;
-import com.zhongjian.dto.common.ResultDTO;
 import com.zhongjian.dto.common.ResultUtil;
 import com.zhongjian.executor.ThreadPoolExecutorSingle;
 import com.zhongjian.service.cart.adv.CartAdvService;
@@ -40,7 +39,7 @@ public class CartAdvMarketListServlet {
 
     private CartMarketService cartMarketService = (CartMarketService) SpringContextHolder.getBean(CartMarketService.class);
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Map<String, String> formData = FormDataUtil.getFormData(request);
         AsyncContext asyncContext = request.startAsync();

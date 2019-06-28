@@ -57,6 +57,9 @@
     <dubbo:service interface="com.zhongjian.service.address.AddressService" ref="addressService" version="1.0.0"/> 
     <dubbo:service interface="com.zhongjian.service.cart.cvstore.CartCvstoreService" ref="cartCvstoreService" version="1.0.0"/>
     <dubbo:service interface="com.zhongjian.service.cart.shopown.CartCvStoreShopService" ref="cartCvStoreShopService" version="1.0.0"/>
+    <dubbo:service interface="com.zhongjian.service.cart.shopown.CartCvStoreShopService" ref="cartCvStoreShopService" version="1.0.0"/>
+    <dubbo:service interface="com.zhongjian.service.cart.adv.CartAdvService" ref="cartAdvService" version="1.0.0"/>
+    <dubbo:service interface="com.zhongjian.service.cart.market.CartMarketService" ref="cartMarketService" version="1.0.0"/>
     <!-- server end -->
 
     <!-- 创建数据源 -->

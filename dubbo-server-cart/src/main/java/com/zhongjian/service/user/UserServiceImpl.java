@@ -5,10 +5,11 @@ import com.zhongjian.commoncomponent.PropUtil;
 import com.zhongjian.dao.entity.cart.user.UserBean;
 import com.zhongjian.dao.framework.impl.HmBaseService;
 import com.zhongjian.dao.jdbctemplate.CouponDao;
-import com.zhongjian.dto.message.result.MessageResParamDTO;
 import com.zhongjian.dto.user.query.UserQueryDTO;
 import com.zhongjian.dto.user.result.UserCopResultDTO;
 import com.zhongjian.dto.user.result.UserResultDTO;
+import com.zhongjian.localservice.UserLocalService;
+import com.zhongjian.util.DateUtil;
 import com.zhongjian.util.HttpConnectionPoolUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * @Author: ldd
@@ -28,6 +30,9 @@ import java.util.Map;
 @Service("userService")
 public class UserServiceImpl extends HmBaseService<UserBean, Integer> implements UserService {
 
+	@Autowired
+	private UserLocalService userLocalService;
+	
 	@Autowired
 	private CouponDao couponDao;
 
@@ -165,7 +170,34 @@ public class UserServiceImpl extends HmBaseService<UserBean, Integer> implements
 		WxLoginInfo wxLoginInfo = JSONObject.parseObject(data, WxLoginInfo.class);
 		String unionid = wxLoginInfo.getUnionid();
 		String openid = wxLoginInfo.getOpenid();
-		return null;
+		UserBean userBean = new UserBean();
+	    userBean.setUnionid(unionid);
+	    userBean.setAppletsOpenid(openid);
+	    userBean.setUserType(0);
+	    userBean.setIsInside(0);
+	    Byte status = 1;
+	    userBean.setStatus(status);
+	    userBean.setCtime(DateUtil.getCurrentTime());
+	    String loginToken = UUID.randomUUID().toString().replaceAll("\\-", "");
+	    userBean.setLoginToken(loginToken);
+	    userBean.setIntegral(0);
+	    userBean.setPic(headPic);
+	    userBean.setNick(nickName);
+        userBean.setPrizetimes(0);
+        userBean.setVipStatus(0);
+        userBean.setVipLevel(0);
+        userBean.setVipPromotionReward(new BigDecimal(0.00));
+        userBean.setVipPromotionRewardget(new BigDecimal(0.00));
+        userBean.setVipPromotionRewardover(new BigDecimal(0.00));
+		Integer addTag = userLocalService.add(userBean);
+		if (addTag == 0) {
+			return null;
+		}else {
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("id", addTag);
+			map.put("login_token", loginToken);
+			return map;
+		}
 	}
 
 	@Override
@@ -180,7 +212,36 @@ public class UserServiceImpl extends HmBaseService<UserBean, Integer> implements
 		WxLoginInfo wxLoginInfo = JSONObject.parseObject(data, WxLoginInfo.class);
 		String unionid = wxLoginInfo.getUnionid();
 		String openid = wxLoginInfo.getOpenid();
-		return null;
+		UserBean userBean = new UserBean();
+	    userBean.setUnionid(unionid);
+	    userBean.setAppletsOpenid(openid);
+	    userBean.setUserType(0);
+	    userBean.setIsInside(0);
+	    Byte status = 1;
+	    userBean.setStatus(status);
+	    userBean.setCtime(DateUtil.getCurrentTime());
+	    String loginToken = UUID.randomUUID().toString().replaceAll("\\-", "");
+	    userBean.setLoginToken(loginToken);
+	    userBean.setIntegral(0);
+	    userBean.setPic(headPic);
+	    userBean.setNick(nickName);
+        userBean.setPrizetimes(0);
+        userBean.setVipStatus(0);
+        userBean.setVipLevel(0);
+        userBean.setVipPromotionReward(new BigDecimal(0.00));
+        userBean.setVipPromotionRewardget(new BigDecimal(0.00));
+        userBean.setVipPromotionRewardover(new BigDecimal(0.00));
+        userBean.setShareId(shareId);
+        userBean.setParentId(shareId);
+		Integer addTag = userLocalService.add(userBean);
+		if (addTag == 0) {
+			return null;
+		}else {
+			HashMap<String, Object> map = new HashMap<String, Object>();
+			map.put("id", addTag);
+			map.put("login_token", loginToken);
+			return map;
+		}
 	}
 	
 	static class WxLoginInfo{

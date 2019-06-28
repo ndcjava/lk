@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * @Author: ldd
  */
-@Service
+@Service("cartMarketService")
 public class CartMarketServiceImpl extends HmBaseService<CartMarketBean, Integer> implements CartMarketService {
 
 

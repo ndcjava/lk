@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * @Author: ldd
  */
-@Service
+@Service("cartAdvService")
 public class CartAdvServiceImpl extends HmBaseService<CartAdvBean, Integer> implements CartAdvService {
 
     @Override

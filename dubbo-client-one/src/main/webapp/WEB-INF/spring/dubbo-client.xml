@@ -63,6 +63,8 @@
 		interface="com.zhongjian.service.order.CVOrderService" version="1.0.0">
 		<dubbo:method name="previewOrderTime" async="true" />
 	</dubbo:reference>
+	<dubbo:reference id="cartMarketService" interface="com.zhongjian.service.cart.market.CartMarketService" version="1.0.0" />
+	<dubbo:reference id="cartAdvService" interface="com.zhongjian.service.cart.adv.CartAdvService" version="1.0.0" />
 	<bean class="com.zhongjian.common.SpringContextHolder"></bean>
 	<bean id="propComponent" init-method="readProperties"
 		class="com.zhongjian.component.PropComponent"></bean>

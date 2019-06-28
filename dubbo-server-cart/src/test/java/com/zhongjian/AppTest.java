@@ -28,6 +28,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.UUID;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -180,16 +182,27 @@ public class AppTest {
     @Test
     public void storeAddressDao() {
 
-        UserBean userBean = new UserBean();
-        userBean.setUnionid("3");
-        userBean.setPrizetimes(1);
-        userBean.setVipStatus(1);
-        userBean.setVipLevel(1);
-        userBean.setVipPromotionReward(new BigDecimal(2.0));
-        userBean.setVipPromotionRewardget(new BigDecimal(2.0));
-        userBean.setVipPromotionRewardover(new BigDecimal(2.0));
-
-        System.out.println(JSONObject.toJSONString(userLocalService.add(userBean)));
+    	UserBean userBean = new UserBean();
+	    userBean.setUnionid("3242123321");
+	    userBean.setAppletsOpenid("3242123321");
+	    userBean.setUserType(0);
+	    userBean.setIsInside(0);
+	    Byte status = 1;
+	    userBean.setStatus(status);
+	    userBean.setCtime(DateUtil.getCurrentTime());
+	    String loginToken = UUID.randomUUID().toString().replaceAll("\\-", "");
+	    userBean.setLoginToken(loginToken);
+	    userBean.setIntegral(0);
+	    userBean.setPic("dfaf");
+	    userBean.setNick("dfaf");
+        userBean.setPrizetimes(0);
+        userBean.setVipStatus(0);
+        userBean.setVipLevel(0);
+        userBean.setVipPromotionReward(new BigDecimal(0.00));
+        userBean.setVipPromotionRewardget(new BigDecimal(0.00));
+        userBean.setVipPromotionRewardover(new BigDecimal(0.00));
+		Integer addTag = userLocalService.add(userBean);
+		System.out.println(addTag);
     }
 
 }
