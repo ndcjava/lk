@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.zhongjian.commoncomponent.PropUtil;
 import com.zhongjian.dao.cart.CartParamDTO;
 import com.zhongjian.dao.entity.cart.rider.CartRiderOrderBean;
+import com.zhongjian.dao.entity.cart.user.UserBean;
 import com.zhongjian.dao.framework.inf.HmDAO;
 import com.zhongjian.dao.jdbctemplate.StoreAddressDao;
 import com.zhongjian.dto.common.ResultDTO;
@@ -12,11 +13,12 @@ import com.zhongjian.dto.cart.basket.query.CartBasketDelQueryDTO;
 import com.zhongjian.dto.cart.basket.query.CartBasketEditQueryDTO;
 import com.zhongjian.dto.cart.basket.query.CartBasketListQueryDTO;
 import com.zhongjian.dto.cart.address.query.CartAddressQueryDTO;
-import com.zhongjian.dto.user.query.UserQueryDTO;
+import com.zhongjian.localservice.UserLocalService;
 import com.zhongjian.service.address.AddressService;
+import com.zhongjian.service.cart.adv.CartAdvService;
 import com.zhongjian.service.cart.basket.CartBasketService;
+import com.zhongjian.service.cart.market.CartMarketService;
 import com.zhongjian.service.cart.shopown.CartShopownService;
-import com.zhongjian.service.user.UserService;
 import com.zhongjian.util.DateUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,11 +26,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.Map;
-import java.util.concurrent.SynchronousQueue;
-
 import javax.annotation.Resource;
-import javax.annotation.Resources;
+import java.math.BigDecimal;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -41,26 +40,30 @@ public class AppTest {
     private CartShopownService cartShopownService;
 
     @Resource
-    private AddressService addressService;
+    private CartAdvService cartAdvService;
 
+    @Resource
+    private CartMarketService cartMarketService;
+
+
+    @Resource
+    private AddressService addressService;
 
 
     @Autowired
     private StoreAddressDao storeAddressDao;
-    
-    @Resource
-    private UserService userService;
-
-    private HmDAO<CartRiderOrderBean,Integer>hmDAO;
-
-
 
     @Resource
-    public void setHmDAO(HmDAO<CartRiderOrderBean,Integer>hmDAO){
-        this.hmDAO=hmDAO;
+    private UserLocalService userLocalService;
+
+    private HmDAO<CartRiderOrderBean, Integer> hmDAO;
+
+
+    @Resource
+    public void setHmDAO(HmDAO<CartRiderOrderBean, Integer> hmDAO) {
+        this.hmDAO = hmDAO;
         this.hmDAO.setPerfix(CartRiderOrderBean.class.getName());
     }
-
 
 
     @Resource
@@ -115,18 +118,15 @@ public class AppTest {
         hmBasketListQueryDTO.setUid(32716);
         System.out.println(JSONObject.toJSONString(hmBasketService.editInfo(hmBasketListQueryDTO)));
     }
+
     @Test
     public void queryList1() {
         System.out.println(JSONObject.toJSONString(cartShopownService.queryList(32716)));
     }
 
+
     @Test
-    public void user(){
-        Integer uidByLoginToken = userService.getUidByLoginToken("ac954d3bdee77aff2b0c4a809037673a");
-        System.out.println( uidByLoginToken);
-    }
-    @Test
-    public void order(){
+    public void order() {
         CartParamDTO cartParamDTO = new CartParamDTO();
         Long todayZeroTime = DateUtil.getTodayZeroTime();
         cartParamDTO.setCtime(todayZeroTime.intValue());
@@ -134,12 +134,10 @@ public class AppTest {
         Integer findCountByUid = this.hmDAO.executeSelectOneMethod(cartParamDTO, "findCountByUid", Integer.class);
         System.out.println(findCountByUid);
     }
+
+
     @Test
-    public void user1(){
-        System.out.println(userService.getUserBeanById(1));
-    }
-    @Test
-    public void address(){
+    public void address() {
         CartAddressQueryDTO cartAddressQueryDTO = new CartAddressQueryDTO();
         cartAddressQueryDTO.setId(1);
         cartAddressQueryDTO.setUid(1);
@@ -149,7 +147,7 @@ public class AppTest {
     }
 
     @Test
-    public void add(){
+    public void add() {
         CartAddressQueryDTO cartAddressQueryDTO = new CartAddressQueryDTO();
         cartAddressQueryDTO.setId(1);
         cartAddressQueryDTO.setUid(1);
@@ -157,18 +155,19 @@ public class AppTest {
 
         System.out.println(addressService.previewOrderAddress(cartAddressQueryDTO));
     }
+
     @Test
-    public void updateDefalut(){
+    public void updateDefalut() {
         CartAddressQueryDTO cartAddressQueryDTO = new CartAddressQueryDTO();
         cartAddressQueryDTO.setId(1);
         cartAddressQueryDTO.setUid(1);
 
 
-       addressService.updateDefaultAddress(cartAddressQueryDTO);
+        addressService.updateDefaultAddress(cartAddressQueryDTO);
     }
 
     @Test
-    public void updateUserMarketId(){
+    public void updateUserMarketId() {
         CartAddressQueryDTO cartAddressQueryDTO = new CartAddressQueryDTO();
         cartAddressQueryDTO.setId(1);
         cartAddressQueryDTO.setMarketId(1);
@@ -177,20 +176,20 @@ public class AppTest {
         addressService.updateUserMarketIdById(cartAddressQueryDTO);
     }
 
-    @Test
-    public void coupon(){
-        UserQueryDTO userQueryDTO = new UserQueryDTO();
-        userQueryDTO.setUid(25);
-        userQueryDTO.setPrice("70");
-        userQueryDTO.setMarketId(119);
 
-        userService.getCouponByUid(userQueryDTO);
-        
-    }
     @Test
     public void storeAddressDao() {
-    	Map<String, Object> storeAddress = storeAddressDao.getStoreAddress(586);
-    	double longitude = Double.parseDouble((String) storeAddress.get("longitude"));
+
+        UserBean userBean = new UserBean();
+        userBean.setUnionid("3");
+        userBean.setPrizetimes(1);
+        userBean.setVipStatus(1);
+        userBean.setVipLevel(1);
+        userBean.setVipPromotionReward(new BigDecimal(2.0));
+        userBean.setVipPromotionRewardget(new BigDecimal(2.0));
+        userBean.setVipPromotionRewardover(new BigDecimal(2.0));
+
+        System.out.println(JSONObject.toJSONString(userLocalService.add(userBean)));
     }
 
 }
