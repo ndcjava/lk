@@ -44,7 +44,7 @@
          id, ename,title, ctime, market_pic, state, `order`
         from hm_market
         where state=1
-        order by 'order' ASC
+        order by `order` ASC
     </select>
 
 
