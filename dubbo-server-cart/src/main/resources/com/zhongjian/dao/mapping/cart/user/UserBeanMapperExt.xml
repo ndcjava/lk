@@ -10,28 +10,28 @@
     </select>
 
     <resultMap id="BaseResultMapExt" type="com.zhongjian.dto.user.result.UserResultDTO">
-        <id column="id" property="id" jdbcType="INTEGER" />
-        <result column="phone" property="phone" jdbcType="VARCHAR" />
-        <result column="password" property="password" jdbcType="VARCHAR" />
-        <result column="user_type" property="userType" jdbcType="INTEGER" />
-        <result column="nick" property="nick" jdbcType="VARCHAR" />
-        <result column="integral" property="integral" jdbcType="INTEGER" />
-        <result column="pic" property="pic" jdbcType="VARCHAR" />
-        <result column="ctime" property="ctime" jdbcType="INTEGER" />
-        <result column="status" property="status" jdbcType="TINYINT" />
-        <result column="salt" property="salt" jdbcType="VARCHAR" />
-        <result column="prizetimes" property="prizetimes" jdbcType="INTEGER" />
-        <result column="late_marketid" property="lateMarketid" jdbcType="INTEGER" />
-        <result column="parent_id" property="parentId" jdbcType="INTEGER" />
-        <result column="unionid" property="unionid" jdbcType="VARCHAR" />
-        <result column="is_inside" property="isInside" jdbcType="INTEGER" />
-        <result column="share_id" property="shareId" jdbcType="INTEGER" />
-        <result column="login_token" property="loginToken" jdbcType="VARCHAR" />
-        <result column="vip_status" property="vipStatus" jdbcType="INTEGER" />
-        <result column="vip_level" property="vipLevel" jdbcType="INTEGER" />
-        <result column="vip_start" property="vipStart" jdbcType="INTEGER" />
-        <result column="vip_expire" property="vipExpire" jdbcType="INTEGER" />
-        <result column="vip_stop" property="vipStop" jdbcType="INTEGER" />
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="user_type" property="userType" jdbcType="INTEGER"/>
+        <result column="nick" property="nick" jdbcType="VARCHAR"/>
+        <result column="integral" property="integral" jdbcType="INTEGER"/>
+        <result column="pic" property="pic" jdbcType="VARCHAR"/>
+        <result column="ctime" property="ctime" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="TINYINT"/>
+        <result column="salt" property="salt" jdbcType="VARCHAR"/>
+        <result column="prizetimes" property="prizetimes" jdbcType="INTEGER"/>
+        <result column="late_marketid" property="lateMarketid" jdbcType="INTEGER"/>
+        <result column="parent_id" property="parentId" jdbcType="INTEGER"/>
+        <result column="unionid" property="unionid" jdbcType="VARCHAR"/>
+        <result column="is_inside" property="isInside" jdbcType="INTEGER"/>
+        <result column="share_id" property="shareId" jdbcType="INTEGER"/>
+        <result column="login_token" property="loginToken" jdbcType="VARCHAR"/>
+        <result column="vip_status" property="vipStatus" jdbcType="INTEGER"/>
+        <result column="vip_level" property="vipLevel" jdbcType="INTEGER"/>
+        <result column="vip_start" property="vipStart" jdbcType="INTEGER"/>
+        <result column="vip_expire" property="vipExpire" jdbcType="INTEGER"/>
+        <result column="vip_stop" property="vipStop" jdbcType="INTEGER"/>
         <result column="vip_promotion_reward" property="vipPromotionReward"/>
     </resultMap>
 
@@ -89,6 +89,14 @@
             AND uc.model = 2
             order by uc.end_time asc,uc.price desc
     </select>
+
+    <select id="findUserByUnionId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from hm_user
+        where unionid=#{unionid,jdbcType=VARCHAR}
+    </select>
+
 </mapper>
 
 

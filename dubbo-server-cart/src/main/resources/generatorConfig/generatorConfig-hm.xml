@@ -30,18 +30,18 @@
 			<property name="forceBigDecimals" value="false" />
 		</javaTypeResolver>
 
-		<javaModelGenerator targetPackage="com.zhongjian.dao.entity.order.rider"
+		<javaModelGenerator targetPackage="com.zhongjian.dao.entity.cart.user"
 			targetProject="src/main/java">
 			<property name="enableSubPackages" value="true" />
 			<property name="trimStrings" value="true" />
 		</javaModelGenerator>
 
-		<sqlMapGenerator targetPackage="com.zhongjian.dao.mapping.cart.rider"
+		<sqlMapGenerator targetPackage="com.zhongjian.dao.mapping.cart.user"
 			targetProject="src/main/resources">
 			<property name="enableSubPackages" value="true" />
 		</sqlMapGenerator>
 
-		<table tableName="hm_rider_order" domainObjectName="HmRiderOrderBean"
+		<table tableName="hm_user" domainObjectName="UserBean"
 			   enableCountByExample="false" enableUpdateByExample="false"
 			   enableDeleteByExample="false" enableSelectByExample="false"
 			   selectByExampleQueryId="false">
