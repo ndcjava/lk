@@ -32,6 +32,7 @@
     <resultMap id="BaseMarketResultInfo" type="com.zhongjian.dto.cart.market.result.CartMarketListResultDTO">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="ename" property="ename" jdbcType="VARCHAR"/>
+        <result column="title" property="title" jdbcType="VARCHAR"/>
         <result column="ctime" property="ctime" jdbcType="INTEGER"/>
         <result column="market_pic" property="marketPic" jdbcType="VARCHAR"/>
         <result column="state" property="state" jdbcType="INTEGER"/>
@@ -40,7 +41,7 @@
 
     <select id="findMarketList" resultMap="BaseMarketResultInfo">
         select
-         id, ename, ctime, market_pic, state, `order`
+         id, ename,title, ctime, market_pic, state, `order`
         from hm_market
         where state=1
         order by 'order' ASC

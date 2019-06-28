@@ -8,6 +8,7 @@ import com.zhongjian.dao.entity.cart.rider.CartRiderOrderBean;
 import com.zhongjian.dao.entity.cart.user.UserBean;
 import com.zhongjian.dao.framework.inf.HmDAO;
 import com.zhongjian.dao.jdbctemplate.StoreAddressDao;
+import com.zhongjian.dto.cart.market.result.CartMarketListResultDTO;
 import com.zhongjian.dto.common.ResultDTO;
 import com.zhongjian.dto.cart.basket.query.CartBasketDelQueryDTO;
 import com.zhongjian.dto.cart.basket.query.CartBasketEditQueryDTO;
@@ -29,6 +30,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -170,12 +172,8 @@ public class AppTest {
 
     @Test
     public void updateUserMarketId() {
-        CartAddressQueryDTO cartAddressQueryDTO = new CartAddressQueryDTO();
-        cartAddressQueryDTO.setId(1);
-        cartAddressQueryDTO.setMarketId(1);
-
-
-        addressService.updateUserMarketIdById(cartAddressQueryDTO);
+        List<CartMarketListResultDTO> cartMarketListResultDTOS = cartMarketService.queryList();
+        System.out.println(JSONObject.toJSONString(cartMarketListResultDTOS));
     }
 
 

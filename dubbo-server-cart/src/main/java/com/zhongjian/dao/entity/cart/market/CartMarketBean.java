@@ -7,6 +7,11 @@ public class CartMarketBean {
     private Integer id;
 
     /**
+     * 标题
+     */
+    private String title;
+
+    /**
      * 菜场名称
      */
     private String ename;
@@ -45,6 +50,22 @@ public class CartMarketBean {
      */
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    /**
+     * 标题
+     * @return title 标题
+     */
+    public String getTitle() {
+        return title;
+    }
+
+    /**
+     * 标题
+     * @param title 标题
+     */
+    public void setTitle(String title) {
+        this.title = title == null ? null : title.trim();
     }
 
     /**

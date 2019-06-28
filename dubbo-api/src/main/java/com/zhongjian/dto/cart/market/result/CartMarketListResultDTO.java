@@ -8,7 +8,7 @@ import java.io.Serializable;
  * @Author: ldd
  */
 @Data
-public class CartMarketListResultDTO  implements Serializable{
+public class CartMarketListResultDTO implements Serializable {
 
     private static final long serialVersionUID = 197018972999527001L;
 
@@ -21,6 +21,11 @@ public class CartMarketListResultDTO  implements Serializable{
      * 菜场名称
      */
     private String ename;
+
+    /**
+     * 标题
+     */
+    private String title;
 
     /**
      * 添加时间

@@ -3,6 +3,7 @@
 <mapper namespace="com.zhongjian.dao.entity.cart.market.CartMarketBean" >
   <resultMap id="BaseResultMap" type="com.zhongjian.dao.entity.cart.market.CartMarketBean" >
     <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
     <result column="ename" property="ename" jdbcType="VARCHAR" />
     <result column="ctime" property="ctime" jdbcType="INTEGER" />
     <result column="market_pic" property="marketPic" jdbcType="VARCHAR" />
@@ -10,7 +11,7 @@
     <result column="order" property="order" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, ename, ctime, market_pic, state, order
+    id, title, ename, ctime, market_pic, state, order
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -26,10 +27,12 @@
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into hm_market (ename, ctime, market_pic, 
-      state, order)
-    values (#{ename,jdbcType=VARCHAR}, #{ctime,jdbcType=INTEGER}, #{marketPic,jdbcType=VARCHAR}, 
-      #{state,jdbcType=INTEGER}, #{order,jdbcType=INTEGER})
+    insert into hm_market (title, ename, ctime, 
+      market_pic, state, order
+      )
+    values (#{title,jdbcType=VARCHAR}, #{ename,jdbcType=VARCHAR}, #{ctime,jdbcType=INTEGER}, 
+      #{marketPic,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, #{order,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.zhongjian.dao.entity.cart.market.CartMarketBean" >
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
@@ -37,6 +40,9 @@
     </selectKey>
     insert into hm_market
     <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="title != null" >
+        title,
+      </if>
       <if test="ename != null" >
         ename,
       </if>
@@ -54,6 +60,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
       <if test="ename != null" >
         #{ename,jdbcType=VARCHAR},
       </if>
@@ -74,6 +83,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.zhongjian.dao.entity.cart.market.CartMarketBean" >
     update hm_market
     <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
       <if test="ename != null" >
         ename = #{ename,jdbcType=VARCHAR},
       </if>
@@ -94,7 +106,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.zhongjian.dao.entity.cart.market.CartMarketBean" >
     update hm_market
-    set ename = #{ename,jdbcType=VARCHAR},
+    set title = #{title,jdbcType=VARCHAR},
+      ename = #{ename,jdbcType=VARCHAR},
       ctime = #{ctime,jdbcType=INTEGER},
       market_pic = #{marketPic,jdbcType=VARCHAR},
       state = #{state,jdbcType=INTEGER},
@@ -106,8 +119,11 @@
     count(*)
     from hm_market
     <where>
+     <if test="title != null">
+      title=#{title,jdbcType=VARCHAR}
+     </if>
      <if test="ename != null">
-      ename=#{ename,jdbcType=VARCHAR}
+      AND ename=#{ename,jdbcType=VARCHAR}
      </if>
      <if test="ctime != null">
       AND ctime=#{ctime,jdbcType=INTEGER}
@@ -128,8 +144,11 @@
     <include refid="Base_Column_List"/>
     from hm_market
     <where>
+     <if test="title != null">
+      title=#{title,jdbcType=VARCHAR}
+     </if>
      <if test="ename != null">
-      ename=#{ename,jdbcType=VARCHAR}
+      AND ename=#{ename,jdbcType=VARCHAR}
      </if>
      <if test="ctime != null">
       AND ctime=#{ctime,jdbcType=INTEGER}
