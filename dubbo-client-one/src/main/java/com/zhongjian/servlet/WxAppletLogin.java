@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-@WebServlet(value = "/v1/notify/ali", asyncSupported = true)
+@WebServlet(value = "/v1/home/login")
 public class WxAppletLogin extends HttpServlet {
 
 	
