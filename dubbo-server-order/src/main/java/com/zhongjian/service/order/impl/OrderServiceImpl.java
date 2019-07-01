@@ -119,7 +119,7 @@ public class OrderServiceImpl extends HmBaseService<OrderShopownBean, Integer> i
 		BigDecimal vipFavourRiderOrder = BigDecimal.ZERO;
 
 		// 会员折扣
-		Double memberDiscount = 0.95;
+		Double memberDiscount = 1.00;
 		// 会员运费折扣
 		Double memberDeliverfeeDiscount = 0.5;
 		// 会员单笔limit
@@ -199,12 +199,13 @@ public class OrderServiceImpl extends HmBaseService<OrderShopownBean, Integer> i
 				}
 				if (toCreateOrder) {
 					hmCart = new HashMap<String, Object>();
+					String specName = (String) map.get("spec_name");
 					Integer gid = (Integer) map.get("gid");
 					String gname = (String) map.get("gname");
 					String unit = (String) map.get("unit");
 					String remark = (String) map.get("remark");
 					hmCart.put("gid", gid);
-					hmCart.put("gname", gname == null ? "其他" : gname);
+					hmCart.put("gname", gname == null ? "其他" : gname + "(" + specName + ")");
 					hmCart.put("unit", unit == null ? "个" : unit);
 					hmCart.put("uid", uid);
 					hmCart.put("price", singleAmount);
@@ -355,12 +356,12 @@ public class OrderServiceImpl extends HmBaseService<OrderShopownBean, Integer> i
 		}
 		Integer vipStatus = (Integer) (uMap.get("vip_status"));
 		// 动态获取VIP参数 --start
-		Map<String, Object> config = getConfigByUidAndStatus(uid, vipStatus);
-		limitDayRelief = config.get("limitDayRelief") == null ? limitDayRelief : (Double) config.get("limitDayRelief");
-		limitOne = config.get("limitOne") == null ? limitOne : (Double) config.get("limitOne");
-		memberDiscount = config.get("discount") == null ? memberDiscount : (Double) config.get("discount");
-		memberDeliverfeeDiscount = config.get("riderDiscount") == null ? memberDeliverfeeDiscount
-				: (Double) config.get("riderDiscount");
+//		Map<String, Object> config = getConfigByUidAndStatus(uid, vipStatus);
+//		limitDayRelief = config.get("limitDayRelief") == null ? limitDayRelief : (Double) config.get("limitDayRelief");
+//		limitOne = config.get("limitOne") == null ? limitOne : (Double) config.get("limitOne");
+//		memberDiscount = config.get("discount") == null ? memberDiscount : (Double) config.get("discount");
+//		memberDeliverfeeDiscount = config.get("riderDiscount") == null ? memberDeliverfeeDiscount
+//				: (Double) config.get("riderDiscount");
 
 		// 动态获取VIP参数 --end
 //		memberDeliverfee = new BigDecimal(deliverfee).multiply(new BigDecimal(memberDeliverfeeDiscount))
@@ -396,16 +397,14 @@ public class OrderServiceImpl extends HmBaseService<OrderShopownBean, Integer> i
 			needPay = needPay.subtract(vipFavourable);
 			deliverfee = "￥" + memberDeliverfee;
 			deliverfeeBigDecimal = new BigDecimal(memberDeliverfee);
-
-			if ("1".equals(isSelfMention)) {
-				deliverfee = "￥" + memberSelfMentionDeliverfee;
-				deliverfeeBigDecimal = new BigDecimal(memberSelfMentionDeliverfee);
-				if (toCreateOrder) {
-					storeOrders.put("rider_status", 3);
-				}
+		}
+		if ("1".equals(isSelfMention)) {
+			deliverfee = "￥" + memberSelfMentionDeliverfee;
+			deliverfeeBigDecimal = new BigDecimal(memberSelfMentionDeliverfee);
+			if (toCreateOrder) {
+				storeOrders.put("rider_status", 3);
 			}
 		}
-
 		boolean todayCouponUse = orderDao.checkCouponOrderByUid(uid);
 		BigDecimal priceForIntegralor = needPay.add(deliverfeeBigDecimal);
 

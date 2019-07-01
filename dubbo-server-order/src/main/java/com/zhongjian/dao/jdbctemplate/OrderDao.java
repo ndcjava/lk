@@ -53,11 +53,11 @@ public class OrderDao extends MongoDBDaoBase {
 	// activity ----end
 
 	public List<Map<String, Object>> getBasketByUidAndSid(Integer sid, Integer uid) {
-		String sql = "SELECT hm_goods.price,hm_basket.amount,hm_basket.gid,hm_basket.unitPrice,"
+		String sql = "SELECT hm_goods_spec.price,hm_goods_spec.spec_name,hm_basket.amount,hm_basket.gid,hm_basket.unitPrice,"
 				+ "hm_goods.gname,hm_goods.unit,hm_shopown.sname,"
 				+ "hm_shopown.unFavorable,hm_shopown.marketid,hm_shopown.pid,"
 				+ "hm_basket.price basketprice,hm_basket.remark from hm_basket LEFT JOIN hm_goods ON hm_basket.gid = "
-				+ "hm_goods.id INNER JOIN hm_shopown on  hm_shopown.pid = hm_basket.sid where "
+				+ "hm_goods.id LEFT JOIN hm_goods_spec ON hm_basket.specid = hm_goods_spec.id INNER JOIN hm_shopown on  hm_shopown.pid = hm_basket.sid where "
 				+ "hm_basket.uid = ? and hm_basket.sid = ?";
 		List<Map<String, Object>> resultList = jdbcTemplate.queryForList(sql, new Object[] { uid, sid });
 		return resultList;
