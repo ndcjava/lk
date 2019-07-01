@@ -9,6 +9,11 @@ public class CartBasketBean {
     private Integer id;
 
     /**
+     * 规格id
+     */
+    private Integer specid;
+
+    /**
      * 菜品id
      */
     private Integer gid;
@@ -29,7 +34,7 @@ public class CartBasketBean {
     private BigDecimal unitprice;
 
     /**
-     * 斤两
+     * 数量
      */
     private BigDecimal amount;
 
@@ -62,6 +67,22 @@ public class CartBasketBean {
      */
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    /**
+     * 规格id
+     * @return specid 规格id
+     */
+    public Integer getSpecid() {
+        return specid;
+    }
+
+    /**
+     * 规格id
+     * @param specid 规格id
+     */
+    public void setSpecid(Integer specid) {
+        this.specid = specid;
     }
 
     /**
@@ -129,16 +150,16 @@ public class CartBasketBean {
     }
 
     /**
-     * 斤两
-     * @return amount 斤两
+     * 数量
+     * @return amount 数量
      */
     public BigDecimal getAmount() {
         return amount;
     }
 
     /**
-     * 斤两
-     * @param amount 斤两
+     * 数量
+     * @param amount 数量
      */
     public void setAmount(BigDecimal amount) {
         this.amount = amount;

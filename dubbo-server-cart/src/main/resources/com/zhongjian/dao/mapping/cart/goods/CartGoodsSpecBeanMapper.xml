@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zhongjian.dao.entity.cart.goods.CartGoodsSpecBean" >
+  <resultMap id="BaseResultMap" type="com.zhongjian.dao.entity.cart.goods.CartGoodsSpecBean" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="gid" property="gid" jdbcType="INTEGER" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="spec_name" property="specName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, gid, price, spec_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from hm_goods_spec
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from hm_goods_spec
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.zhongjian.dao.entity.cart.goods.CartGoodsSpecBean" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into hm_goods_spec (gid, price, spec_name
+      )
+    values (#{gid,jdbcType=INTEGER}, #{price,jdbcType=DECIMAL}, #{specName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.zhongjian.dao.entity.cart.goods.CartGoodsSpecBean" >
+    <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into hm_goods_spec
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="gid != null" >
+        gid,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="specName != null" >
+        spec_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="gid != null" >
+        #{gid,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="specName != null" >
+        #{specName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhongjian.dao.entity.cart.goods.CartGoodsSpecBean" >
+    update hm_goods_spec
+    <set >
+      <if test="gid != null" >
+        gid = #{gid,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="specName != null" >
+        spec_name = #{specName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhongjian.dao.entity.cart.goods.CartGoodsSpecBean" >
+    update hm_goods_spec
+    set gid = #{gid,jdbcType=INTEGER},
+      price = #{price,jdbcType=DECIMAL},
+      spec_name = #{specName,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="searchByEntityCount" resultType="java.lang.Integer" parameterType="com.zhongjian.dao.entity.cart.goods.CartGoodsSpecBean" >
+    select
+    count(*)
+    from hm_goods_spec
+    <where>
+     <if test="gid != null">
+      gid=#{gid,jdbcType=INTEGER}
+     </if>
+     <if test="price != null">
+      AND price=#{price,jdbcType=DECIMAL}
+     </if>
+     <if test="specName != null">
+      AND spec_name=#{specName,jdbcType=VARCHAR}
+     </if>
+    </where>
+  </select>
+  <select id="searchByEntity" resultMap="BaseResultMap" parameterType="com.zhongjian.dao.entity.cart.goods.CartGoodsSpecBean" >
+    select
+    <include refid="Base_Column_List"/>
+    from hm_goods_spec
+    <where>
+     <if test="gid != null">
+      gid=#{gid,jdbcType=INTEGER}
+     </if>
+     <if test="price != null">
+      AND price=#{price,jdbcType=DECIMAL}
+     </if>
+     <if test="specName != null">
+      AND spec_name=#{specName,jdbcType=VARCHAR}
+     </if>
+    </where>
+  </select>
+</mapper>

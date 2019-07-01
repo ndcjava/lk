@@ -23,6 +23,11 @@ public class CartBasketResultDTO implements Serializable {
     private Integer sid;
 
     /**
+     *规格id
+     */
+    private Integer specid;
+
+    /**
      * 商品数量
      */
     private String amount;

@@ -8,6 +8,7 @@ import com.zhongjian.dao.entity.cart.rider.CartRiderOrderBean;
 import com.zhongjian.dao.entity.cart.user.UserBean;
 import com.zhongjian.dao.framework.inf.HmDAO;
 import com.zhongjian.dao.jdbctemplate.StoreAddressDao;
+import com.zhongjian.dto.adv.result.CartAdvResultDTO;
 import com.zhongjian.dto.cart.market.result.CartMarketListResultDTO;
 import com.zhongjian.dto.common.ResultDTO;
 import com.zhongjian.dto.cart.basket.query.CartBasketDelQueryDTO;
@@ -31,6 +32,7 @@ import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 
@@ -77,11 +79,12 @@ public class AppTest {
     @Test
     public void addOrUpdateInfo() {
         CartBasketEditQueryDTO hmBasketDelQueryDTO = new CartBasketEditQueryDTO();
-        hmBasketDelQueryDTO.setUid(32716);
-        hmBasketDelQueryDTO.setGid(0);
+        hmBasketDelQueryDTO.setUid(26);
+        hmBasketDelQueryDTO.setGid(1130);
         hmBasketDelQueryDTO.setSid(127);
-        hmBasketDelQueryDTO.setPrice("200");
-        hmBasketDelQueryDTO.setAmount("4");
+        hmBasketDelQueryDTO.setSpecid(2);
+//        hmBasketDelQueryDTO.setPrice("20");
+        hmBasketDelQueryDTO.setAmount("2");
         hmBasketDelQueryDTO.setRemark("2");
         System.out.println(JSONObject.toJSONString(hmBasketService.addOrUpdateInfo(hmBasketDelQueryDTO)));
 
@@ -90,8 +93,8 @@ public class AppTest {
     @Test
     public void queryList() {
         CartBasketListQueryDTO cartBasketListQueryDTO = new CartBasketListQueryDTO();
-        cartBasketListQueryDTO.setUid(32716);
-        cartBasketListQueryDTO.setSid(320);
+        cartBasketListQueryDTO.setUid(26);
+        cartBasketListQueryDTO.setSid(106);
         ResultDTO<Object> objectResultDTO = hmBasketService.queryList(cartBasketListQueryDTO);
         System.out.println(JSONObject.toJSONString(objectResultDTO));
 
@@ -172,35 +175,44 @@ public class AppTest {
 
     @Test
     public void updateUserMarketId() {
+        Map<String, Object> map = new HashMap<>();
+        List<CartAdvResultDTO> cartAdvResultDTOS = cartAdvService.queryList();
         List<CartMarketListResultDTO> cartMarketListResultDTOS = cartMarketService.queryList();
-        System.out.println(JSONObject.toJSONString(cartMarketListResultDTOS));
+        map.put("adv", cartAdvResultDTOS);
+        map.put("market", cartMarketListResultDTOS);
+        System.out.println(JSONObject.toJSONString(map));
     }
 
 
     @Test
     public void storeAddressDao() {
 
-    	UserBean userBean = new UserBean();
-	    userBean.setUnionid("3242123321");
-	    userBean.setAppletsOpenid("3242123321");
-	    userBean.setUserType(0);
-	    userBean.setIsInside(0);
-	    Byte status = 1;
-	    userBean.setStatus(status);
-	    userBean.setCtime(DateUtil.getCurrentTime());
-	    String loginToken = UUID.randomUUID().toString().replaceAll("\\-", "");
-	    userBean.setLoginToken(loginToken);
-	    userBean.setIntegral(0);
-	    userBean.setPic("dfaf");
-	    userBean.setNick("dfaf");
+        UserBean userBean = new UserBean();
+        userBean.setUnionid("3242123321");
+        userBean.setAppletsOpenid("3242123321");
+        userBean.setUserType(0);
+        userBean.setIsInside(0);
+        Byte status = 1;
+        userBean.setStatus(status);
+        userBean.setCtime(DateUtil.getCurrentTime());
+        String loginToken = UUID.randomUUID().toString().replaceAll("\\-", "");
+        userBean.setLoginToken(loginToken);
+        userBean.setIntegral(0);
+        userBean.setPic("dfaf");
+        userBean.setNick("dfaf");
         userBean.setPrizetimes(0);
         userBean.setVipStatus(0);
         userBean.setVipLevel(0);
         userBean.setVipPromotionReward(new BigDecimal(0.00));
         userBean.setVipPromotionRewardget(new BigDecimal(0.00));
         userBean.setVipPromotionRewardover(new BigDecimal(0.00));
-		Integer addTag = userLocalService.add(userBean);
-		System.out.println(addTag);
+        Integer addTag = userLocalService.add(userBean);
+        System.out.println(addTag);
+    }
+
+    @Test
+    public void findGoodsSpecByGid(){
+        System.out.println(JSONObject.toJSONString(hmBasketService.findGoodsSpecByGid(1914)));
     }
 
 }
