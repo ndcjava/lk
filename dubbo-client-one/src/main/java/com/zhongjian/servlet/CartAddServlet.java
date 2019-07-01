@@ -52,6 +52,7 @@ public class CartAddServlet extends HttpServlet {
 					try {
 					Integer uid = (Integer) request.getAttribute("uid");
 					Integer gid = Integer.valueOf(formData.get("gid"));
+					Integer specid = null;
 					String amount = formData.get("amount");
 					String remark = formData.get("remark");
 					String price = formData.get("price");
@@ -63,8 +64,9 @@ public class CartAddServlet extends HttpServlet {
 					}
 					if (gid != 0) {
 						sid = null;
+						specid = Integer.valueOf(formData.get("specid"));
 					}
-					result = CartAddServlet.this.handle(uid, gid, amount, remark,price,sid);
+					result = CartAddServlet.this.handle(uid, gid, amount, remark,price,sid,specid);
 					// 返回数据
 				
 						ResponseHandle.wrappedResponse(asyncContext.getResponse(), result);
@@ -89,7 +91,7 @@ public class CartAddServlet extends HttpServlet {
 
 	}
 
-	private String handle(Integer uid, Integer gid, String amount, String remark,String price,Integer sid) {
+	private String handle(Integer uid, Integer gid, String amount, String remark,String price,Integer sid,Integer specid) {
 		if (uid == 0) {
 			return GsonUtil.GsonString(ResultUtil.getFail(CommonMessageEnum.USER_IS_NULL));
 		}
@@ -100,6 +102,7 @@ public class CartAddServlet extends HttpServlet {
 		cartBasketEditQueryDTO.setPrice(price);
 		cartBasketEditQueryDTO.setAmount(amount);
 		cartBasketEditQueryDTO.setRemark(remark);
+		cartBasketEditQueryDTO.setSpecid(specid);
 		return GsonUtil.GsonString(hmBasketService.addOrUpdateInfo(cartBasketEditQueryDTO));
 	}
 }

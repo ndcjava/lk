@@ -6,6 +6,7 @@ import com.zhongjian.dao.cart.CartParamDTO;
 import com.zhongjian.common.constant.CountDTO;
 import com.zhongjian.dao.entity.cart.basket.CartBasketBean;
 import com.zhongjian.dao.entity.cart.goods.CartGoodsBean;
+import com.zhongjian.dao.entity.cart.goods.CartGoodsSpecBean;
 import com.zhongjian.dao.entity.cart.market.CartMarketBean;
 import com.zhongjian.dao.entity.cart.rider.CartRiderOrderBean;
 import com.zhongjian.dao.entity.cart.store.CartStoreActivityBean;
@@ -50,6 +51,14 @@ public class CartShopownServiceImpl extends HmBaseService<CartMarketBean, Intege
     private HmDAO<CartRiderOrderBean, Integer> cartRiderOrderDAO;
 
     private HmDAO<CartGoodsBean, Integer> cartGoodsBeanHmDAO;
+
+    private HmDAO<CartGoodsSpecBean, Integer> cartGoodsSpecBean;
+
+    @Resource
+    private void setCartGoodsSpecBean(HmDAO<CartGoodsSpecBean, Integer> cartGoodsSpecBean) {
+        this.cartGoodsSpecBean = cartGoodsSpecBean;
+        this.cartGoodsSpecBean.setPerfix(CartGoodsSpecBean.class.getName());
+    }
 
     @Resource
     private void setHmStoreActivityHmDAO(HmDAO<CartStoreActivityBean, Integer> hmStoreActivityHmDAO) {
@@ -196,6 +205,7 @@ public class CartShopownServiceImpl extends HmBaseService<CartMarketBean, Intege
                 List<BigDecimal> listByClose = new ArrayList<>();
                 for (CartBasketResultDTO cartBasketResultDTO : findBasketById) {
 
+                    CartGoodsSpecBean cartGoodsSpecBean = this.cartGoodsSpecBean.selectByPrimaryKey(cartBasketResultDTO.getSpecid());
                     //根据食品id得到食品信息
                     CartGoodsBean cartGoodsBean = this.cartGoodsBeanHmDAO.selectByPrimaryKey(cartBasketResultDTO.getGid());
                     if (null == cartGoodsBean) {
@@ -205,15 +215,17 @@ public class CartShopownServiceImpl extends HmBaseService<CartMarketBean, Intege
                         stringbuider.append(cartBasketResultDTO.getUnitPrice()).append("元/").append(cartGoodsBean.getUnit());
                         cartBasketResultDTO.setUnitPrice(stringbuider.toString());
                         cartBasketResultDTO.setUnit(cartGoodsBean.getUnit());
+                        if (null == cartGoodsSpecBean) {
+                            CartGoodsSpecBean cartGoodsSpec = new CartGoodsSpecBean();
+                            cartGoodsSpec.setSpecName("");
+                            cartBasketResultDTO.setFoodName(cartGoodsBean.getGname() + "(" + cartGoodsSpec.getSpecName() + ")");
+                        } else {
+                            cartBasketResultDTO.setFoodName(cartGoodsBean.getGname() + "(" + cartGoodsSpecBean.getSpecName() + ")");
+                        }
                     }
-                    cartBasketResultDTO.setAmount(decimalFormat.format(Double.parseDouble(cartBasketResultDTO.getAmount())));
-                    cartBasketResultDTO.setTotalPrice("¥" + decimalFormat.format(Double.parseDouble(cartBasketResultDTO.getTotalPrice())));
-
                     if (FinalDatas.ZERO == cartBasketResultDTO.getGid()) {
                         cartBasketResultDTO.setFoodName("其他");
                         cartBasketResultDTO.setStatus(1);
-                    } else {
-                        cartBasketResultDTO.setFoodName(cartGoodsBean.getGname());
                     }
                     //判断要是没有remark备注就不需要拼接组装;
                     if (!StringUtils.isBlank(cartBasketResultDTO.getRemark())) {
@@ -479,7 +491,7 @@ public class CartShopownServiceImpl extends HmBaseService<CartMarketBean, Intege
                         }
                         cartMarketResultByAdvenceDTO.setTotalPrice(String.valueOf(totalDisPriceByAdvence.setScale(2, BigDecimal.ROUND_HALF_UP)));
                     }
-                }else{
+                } else {
                     cartMarketResultByAdvenceDTO.setTotalPrice(String.valueOf(totalDisPriceByAdvence.setScale(2, BigDecimal.ROUND_HALF_UP)));
                 }
             }
@@ -536,8 +548,8 @@ public class CartShopownServiceImpl extends HmBaseService<CartMarketBean, Intege
                         }
                         cartMarketResultByCloseDTO.setTotalPrice(String.valueOf(totalDisPriceByClose.setScale(2, BigDecimal.ROUND_HALF_UP)));
                     }
-                }else{
-                     cartMarketResultByCloseDTO.setTotalPrice(String.valueOf(totalDisPriceByClose.setScale(2, BigDecimal.ROUND_HALF_UP)));
+                } else {
+                    cartMarketResultByCloseDTO.setTotalPrice(String.valueOf(totalDisPriceByClose.setScale(2, BigDecimal.ROUND_HALF_UP)));
                 }
             }
             if (null != cartMarketResultByOpenDTO.getType() && cartMarketResultByOpenDTO.getType() == 0) {
@@ -593,7 +605,7 @@ public class CartShopownServiceImpl extends HmBaseService<CartMarketBean, Intege
                         }
                         cartMarketResultByOpenDTO.setTotalPrice(String.valueOf(totalDisPriceByOpen.setScale(2, BigDecimal.ROUND_HALF_UP)));
                     }
-                }else{
+                } else {
                     cartMarketResultByOpenDTO.setTotalPrice(String.valueOf(totalDisPriceByOpen.setScale(2, BigDecimal.ROUND_HALF_UP)));
                 }
             }

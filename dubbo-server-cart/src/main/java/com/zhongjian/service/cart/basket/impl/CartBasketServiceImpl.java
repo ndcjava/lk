@@ -3,6 +3,7 @@ package com.zhongjian.service.cart.basket.impl;
 import com.zhongjian.common.constant.FinalDatas;
 import com.zhongjian.dao.entity.cart.basket.CartBasketBean;
 import com.zhongjian.dao.entity.cart.goods.CartGoodsBean;
+import com.zhongjian.dao.entity.cart.goods.CartGoodsSpecBean;
 import com.zhongjian.dao.entity.cart.store.CartStoreActivityBean;
 import com.zhongjian.dao.entity.cart.user.UserBean;
 import com.zhongjian.dao.framework.impl.HmBaseService;
@@ -43,6 +44,13 @@ public class CartBasketServiceImpl extends HmBaseService<CartBasketBean, Integer
 
     private HmDAO<CartStoreActivityBean, Integer> cartStoreActivityBeanHmDAO;
 
+    private HmDAO<CartGoodsSpecBean, Integer> cartGoodsSpecBean;
+
+    @Resource
+    private void setCartGoodsSpecBean(HmDAO<CartGoodsSpecBean, Integer> cartGoodsSpecBean) {
+        this.cartGoodsSpecBean = cartGoodsSpecBean;
+        this.cartGoodsSpecBean.setPerfix(CartGoodsSpecBean.class.getName());
+    }
 
     @Resource
     private void setHmGoodsBeanDAO(HmDAO<CartGoodsBean, Integer> hmGoodsBeanDAO) {
@@ -93,6 +101,9 @@ public class CartBasketServiceImpl extends HmBaseService<CartBasketBean, Integer
                 return ResultUtil.getFail(CommonMessageEnum.FAIL);
             }
         }
+        //根据规格id查询规格表
+        CartGoodsSpecBean cartGoodsSpecBean = this.cartGoodsSpecBean.selectByPrimaryKey(cartBasketEditQueryDTO.getSpecid());
+
         //根据前端传入的商品id去查询pid,
         CartGoodsBean cartGoodsBean = this.hmGoodsBeanDAO.selectByPrimaryKey(cartBasketEditQueryDTO.getGid());
         //根据gid,pid,uid查询购物车信息.
@@ -122,11 +133,11 @@ public class CartBasketServiceImpl extends HmBaseService<CartBasketBean, Integer
                 cartBasketBean.setRemark(cartBasketEditQueryDTO.getRemark());
             } else {
                 cartBasketBean.setAmount(new BigDecimal(cartBasketEditQueryDTO.getAmount()));
-                cartBasketBean.setUnitprice(cartGoodsBean.getPrice());
+                cartBasketBean.setUnitprice(cartGoodsSpecBean.getPrice());
                 //计算总价保留两个小数点
                 //总价（传入的总价除于食品价格与传入的数量校验.小于或者等于0.01）
-                if (!StringUtil.isBlank(cartBasketEditQueryDTO.getPrice()) && new BigDecimal(cartBasketEditQueryDTO.getPrice()).compareTo(BigDecimal.ZERO) >0) {
-                    BigDecimal divide = new BigDecimal(cartBasketEditQueryDTO.getPrice()).divide(cartGoodsBean.getPrice(), 5, RoundingMode.HALF_UP);
+                if (!StringUtil.isBlank(cartBasketEditQueryDTO.getPrice()) && new BigDecimal(cartBasketEditQueryDTO.getPrice()).compareTo(BigDecimal.ZERO) > 0) {
+                    BigDecimal divide = new BigDecimal(cartBasketEditQueryDTO.getPrice()).divide(cartGoodsSpecBean.getPrice(), 5, RoundingMode.HALF_UP);
                     BigDecimal subtract = divide.subtract(new BigDecimal(cartBasketEditQueryDTO.getAmount()));
                     if (subtract.compareTo(BigDecimal.ZERO) < 0) {
                         abs = subtract.abs();
@@ -136,11 +147,11 @@ public class CartBasketServiceImpl extends HmBaseService<CartBasketBean, Integer
                     if (abs.compareTo(new BigDecimal(0.01)) <= 0) {
                         cartBasketBean.setPrice(new BigDecimal(cartBasketEditQueryDTO.getPrice()).setScale(2, BigDecimal.ROUND_HALF_UP));
                     } else {
-                        BigDecimal multiply = cartGoodsBean.getPrice().multiply(new BigDecimal(cartBasketEditQueryDTO.getAmount()));
+                        BigDecimal multiply = cartGoodsSpecBean.getPrice().multiply(new BigDecimal(cartBasketEditQueryDTO.getAmount()));
                         cartBasketBean.setPrice(multiply.setScale(2, BigDecimal.ROUND_HALF_UP));
                     }
                 } else {
-                    BigDecimal multiply = cartGoodsBean.getPrice().multiply(new BigDecimal(cartBasketEditQueryDTO.getAmount()));
+                    BigDecimal multiply = cartGoodsSpecBean.getPrice().multiply(new BigDecimal(cartBasketEditQueryDTO.getAmount()));
                     cartBasketBean.setPrice(multiply.setScale(2, BigDecimal.ROUND_HALF_UP));
                 }
                 cartBasketBean.setSid(cartGoodsBean.getPid());
@@ -158,10 +169,10 @@ public class CartBasketServiceImpl extends HmBaseService<CartBasketBean, Integer
                 cartBasketBean.setId(findBasketBeanById.getId());
                 //计算新的总价(去good里面获取价格重新计算)
                 BigDecimal add = findBasketBeanById.getAmount().add(new BigDecimal(cartBasketEditQueryDTO.getAmount()));
-                BigDecimal multiply1 = add.multiply(cartGoodsBean.getPrice());
+                BigDecimal multiply1 = add.multiply(cartGoodsSpecBean.getPrice());
                 cartBasketBean.setPrice(multiply1.setScale(2, BigDecimal.ROUND_HALF_UP));
                 cartBasketBean.setAmount(findBasketBeanById.getAmount().add(new BigDecimal(cartBasketEditQueryDTO.getAmount())));
-                cartBasketBean.setUnitprice(cartGoodsBean.getPrice());
+                cartBasketBean.setUnitprice(cartGoodsSpecBean.getPrice());
                 cartBasketBean.setSid(cartGoodsBean.getPid());
             }
             this.dao.updateByPrimaryKeySelective(cartBasketBean);
@@ -191,6 +202,9 @@ public class CartBasketServiceImpl extends HmBaseService<CartBasketBean, Integer
         BigDecimal totalPrice = new BigDecimal(0);
         BigDecimal totalDisPrice = new BigDecimal(0);
         for (CartBasketResultDTO cartBasketResultDTO : findBasketBeanById) {
+
+            CartGoodsSpecBean cartGoodsSpecBean = this.cartGoodsSpecBean.selectByPrimaryKey(cartBasketResultDTO.getSpecid());
+
             if (FinalDatas.ZERO == cartBasketResultDTO.getGid()) {
                 cartBasketResultDTO.setFoodName("其他");
                 cartBasketResultDTO.setAmount("1");
@@ -200,14 +214,22 @@ public class CartBasketServiceImpl extends HmBaseService<CartBasketBean, Integer
 
             } else {
                 CartGoodsBean cartGoodsBean = this.hmGoodsBeanDAO.selectByPrimaryKey(cartBasketResultDTO.getGid());
-                cartBasketResultDTO.setFoodName(cartGoodsBean.getGname());
-                //数量
-                String amount = cartBasketResultDTO.getAmount();
-                cartBasketResultDTO.setAmount(amount);
-                totalPrice = totalPrice.add(new BigDecimal(cartBasketResultDTO.getPrice()));
-                cartBasketResultDTO.setPrice(cartBasketResultDTO.getPrice());
-                cartBasketResultDTO.setContent(cartGoodsBean.getContent());
-                cartBasketResultDTO.setUnit(cartGoodsBean.getUnit());
+                if (null != cartGoodsBean) {
+                    if (null == cartGoodsSpecBean) {
+                        CartGoodsSpecBean cartGoodsSpec = new CartGoodsSpecBean();
+                        cartGoodsSpec.setSpecName("");
+                        cartBasketResultDTO.setFoodName(cartGoodsBean.getGname() + "(" + cartGoodsSpec.getSpecName() + ")");
+                    } else {
+                        cartBasketResultDTO.setFoodName(cartGoodsBean.getGname() + "(" + cartGoodsSpecBean.getSpecName() + ")");
+                    }
+                    //数量
+                    String amount = cartBasketResultDTO.getAmount();
+                    cartBasketResultDTO.setAmount(amount);
+                    totalPrice = totalPrice.add(new BigDecimal(cartBasketResultDTO.getPrice()));
+                    cartBasketResultDTO.setPrice(cartBasketResultDTO.getPrice());
+                    cartBasketResultDTO.setContent(cartGoodsBean.getContent());
+                    cartBasketResultDTO.setUnit(cartGoodsBean.getUnit());
+                }
             }
         }
         List<CartStoreActivityResultDTO> findStoreActivityBySid = this.cartStoreActivityBeanHmDAO.executeListMethod(cartBasketListQueryDTO.getSid(), "findStoreActivityBySid", CartStoreActivityResultDTO.class);
@@ -372,5 +394,16 @@ public class CartBasketServiceImpl extends HmBaseService<CartBasketBean, Integer
         this.dao.executeDeleteMethod(cartBasketDelQueryDTO, "deleteInfoBySids");
 
         return ResultUtil.getSuccess(null);
+    }
+
+    @Override
+    public ResultDTO<Object> findGoodsSpecByGid(Integer gid) {
+
+        if (null == gid) {
+            return ResultUtil.getFail(CommonMessageEnum.PARAM_LOST);
+        }
+        List<CartGoodsSpecBean> selectGoodsSpecByGid = this.cartGoodsSpecBean.executeListMethod(gid, "selectGoodsSpecByGid", CartGoodsSpecBean.class);
+
+        return ResultUtil.getSuccess(selectGoodsSpecByGid);
     }
 }

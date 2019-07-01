@@ -23,6 +23,11 @@ public class CartBasketEditQueryDTO implements Serializable {
     private Integer gid;
 
     /**
+     *规格id
+     */
+    private Integer specid;
+
+    /**
      * 用户登入uid
      */
     private Integer uid;

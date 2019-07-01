@@ -46,5 +46,10 @@ public interface CartBasketService {
      */
     ResultDTO<Object> deleteAllByPid(CartBasketDelQueryDTO cartBasketDelQueryDTO);
 
+    /**
+     * 根据gid查询规格表
+     */
+    ResultDTO<Object>findGoodsSpecByGid(Integer gid);
+
 
 }
