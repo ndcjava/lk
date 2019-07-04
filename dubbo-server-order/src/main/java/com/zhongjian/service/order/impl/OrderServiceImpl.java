@@ -594,18 +594,6 @@ public class OrderServiceImpl extends HmBaseService<OrderShopownBean, Integer> i
 			resMap.put("orderList", storeList);
 			resMap.put("integralPrice", integralPriceString);
 			resMap.put("marketid", marketId);
-			Map<String, Object> startAndEnd = marketDao.getStartAndEnd(marketId);
-			Object starttime = null;
-			Object endtime = null;
-			if (startAndEnd != null) {
-				starttime = startAndEnd.get("starttime");
-				endtime = startAndEnd.get("endtime");
-			}
-			if (starttime == null || endtime == null) {
-				resMap.put("marketTime", "07:00-18:30");
-			} else {
-				resMap.put("marketTime", starttime + "-" + endtime);
-			}
 			if (orderId != null) {
 				resMap.put("needCancelId", orderId);
 				resMap.put("cancelReason", "检测到您有待支付订单使用首单优惠，是否取消让该单享受优惠，直接支付视为放弃首单优惠");
