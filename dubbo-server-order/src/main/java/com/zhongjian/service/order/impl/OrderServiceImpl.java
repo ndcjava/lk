@@ -906,11 +906,11 @@ public class OrderServiceImpl extends HmBaseService<OrderShopownBean, Integer> i
 				Integer uid = (Integer) rorderDetail.get("uid");
 				List<Integer> orderIds = orderDao.getOrderIdsByRoid(rorderId);
 				orderDao.updateOStatus(orderIds, 1, currentTime);
-				Integer rid = getRidFormMarket(marketId, "least");
-				if (rid != -1) {
-					// 生成骑手
-					orderDao.updateroRider(rid, rorderId);
-				}
+//				Integer rid = getRidFormMarket(marketId, "least");
+//				if (rid != -1) {
+//					// 生成骑手
+//					orderDao.updateroRider(rid, rorderId);
+//				}
 				// 生成地址
 				OrderAddressBean addressBean = addressDao.getAddressById(addressId);
 				OrderAddressOrderBean addressOrderBean = new OrderAddressOrderBean();
@@ -936,7 +936,7 @@ public class OrderServiceImpl extends HmBaseService<OrderShopownBean, Integer> i
 				// 异步处理
 				addressTask.setAddressTask(addressId, uid);
 				addressTask.setLateMarket(marketId, uid);
-				orderTask.handleOrderPush(rorderId);
+//				orderTask.handleOrderPush(rorderId);
 			}
 			return true; // 流程走完告诉支付宝不需再回调
 
