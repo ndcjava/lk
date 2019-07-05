@@ -57,7 +57,6 @@ public class DistributedLock extends ConnectionWatcher {
 
 	public void delete(String path) throws InterruptedException, KeeperException {
 		getZk().delete(path, 0);
-		System.out.println(new Date() + "我释放了分布锁，哈哈！ myId:" + path);
 	}
 
 	/**

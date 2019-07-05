@@ -32,7 +32,13 @@ public class UserLocalServiceImpl extends HmBaseService<UserBean, Integer> imple
 						return 0;
 					}
 				} else {
-					return findUserByUnionId.getId();
+					//更新login_token
+					Integer id = findUserByUnionId.getId();
+					UserBean updateUserTokenBean = new UserBean();
+					updateUserTokenBean.setLoginToken(user.getLoginToken());
+					updateUserTokenBean.setId(id);
+					this.dao.updateByPrimaryKeySelective(updateUserTokenBean);
+					return id;
 				}
 			} catch (Exception e) {
 				return 0;
