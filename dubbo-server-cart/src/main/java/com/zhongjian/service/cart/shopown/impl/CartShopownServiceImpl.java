@@ -211,9 +211,7 @@ public class CartShopownServiceImpl extends HmBaseService<CartMarketBean, Intege
                     if (null == cartGoodsBean) {
                         LogUtil.info("根据食品id得不到食品信息", "cartGoodsBean:" + cartGoodsBean);
                     } else {
-                        stringbuider = new StringBuilder();
-                        stringbuider.append(cartBasketResultDTO.getUnitPrice()).append("元/").append(cartGoodsBean.getUnit());
-                        cartBasketResultDTO.setUnitPrice(stringbuider.toString());
+                        cartBasketResultDTO.setUnitPrice(cartBasketResultDTO.getUnitPrice());
                         cartBasketResultDTO.setUnit(cartGoodsBean.getUnit());
                         if (null == cartGoodsSpecBean) {
                             CartGoodsSpecBean cartGoodsSpec = new CartGoodsSpecBean();
@@ -235,11 +233,11 @@ public class CartShopownServiceImpl extends HmBaseService<CartMarketBean, Intege
                     }
                     //将用户在商品下的所有总价存入list里面.
                     if (FinalDatas.ONE.toString().equals(shopownResultDTO.getStatus())) {
-                        listByClose.add(new BigDecimal(cartBasketResultDTO.getTotalPrice().substring(1)));
+                        listByClose.add(new BigDecimal(cartBasketResultDTO.getTotalPrice()));
                     } else if (FinalDatas.ZERO.toString().equals(shopownResultDTO.getStatus())) {
-                        listByOpen.add(new BigDecimal(cartBasketResultDTO.getTotalPrice().substring(1)));
+                        listByOpen.add(new BigDecimal(cartBasketResultDTO.getTotalPrice()));
                     } else if (FinalDatas.TWO.toString().equals(shopownResultDTO.getStatus())) {
-                        listByAdvence.add(new BigDecimal(cartBasketResultDTO.getTotalPrice().substring(1)));
+                        listByAdvence.add(new BigDecimal(cartBasketResultDTO.getTotalPrice()));
                     }
                 }
                 //备注信息

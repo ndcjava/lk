@@ -87,5 +87,30 @@
             AND (g.state = 1 OR g.is_delete = 1 OR (g.state IS NULL AND b.gid != 0))
     </delete>
 
+    <select id="findBasketBySpecId" parameterType="com.zhongjian.dto.cart.basket.query.CartBasketEditQueryDTO"
+            resultMap="BaseBasketInfoMap">
+        select
+        <include refid="Base_Column_List"/>
+        from hm_basket
+        <where>
+            <if test="specid!=null and specid!=''">
+                specid=#{specid,jdbcType=INTEGER}
+            </if>
+            <if test="uid!=null and uid!=''">
+                and uid=#{uid,jdbcType=INTEGER}
+            </if>
+            <if test="gid!=null and gid!=''">
+                and gid=#{gid,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectBasketById" parameterType="java.lang.Integer"
+            resultMap="BaseBasketInfoMap">
+        select
+        <include refid="Base_Column_List"/>
+        from hm_basket
+        where id=#{id,jdbcType=INTEGER}
+    </select>
 
 </mapper>
