@@ -168,7 +168,7 @@ public class UserServiceImpl extends HmBaseService<UserBean, Integer> implements
 		params.put("grant_type", "authorization_code");
 		String data = HttpConnectionPoolUtil.get(url, params, null, "utf-8");
 		WxLoginInfo wxLoginInfo = JSONObject.parseObject(data, WxLoginInfo.class);
-		String unionid = wxLoginInfo.getUnionid();
+		String unionid = wxLoginInfo.getOpenid();
 		String openid = wxLoginInfo.getOpenid();
 		UserBean userBean = new UserBean();
 	    userBean.setUnionid(unionid);

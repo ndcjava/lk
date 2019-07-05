@@ -1,9 +1,15 @@
 package com.zhongjian.dao.entity.cart.goods;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class CartGoodsSpecBean {
+public class CartGoodsSpecBean implements Serializable{
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * 规格id
      */
     private Integer id;

@@ -119,7 +119,7 @@ public class OrderServiceImpl extends HmBaseService<OrderShopownBean, Integer> i
 		BigDecimal vipFavourRiderOrder = BigDecimal.ZERO;
 
 		// 会员折扣
-		Double memberDiscount = 0.95;
+		Double memberDiscount = 1.00;
 		// 会员运费折扣
 		Double memberDeliverfeeDiscount = 0.5;
 		// 会员单笔limit
@@ -199,12 +199,13 @@ public class OrderServiceImpl extends HmBaseService<OrderShopownBean, Integer> i
 				}
 				if (toCreateOrder) {
 					hmCart = new HashMap<String, Object>();
+					String specName = (String) map.get("spec_name");
 					Integer gid = (Integer) map.get("gid");
 					String gname = (String) map.get("gname");
 					String unit = (String) map.get("unit");
 					String remark = (String) map.get("remark");
 					hmCart.put("gid", gid);
-					hmCart.put("gname", gname == null ? "其他" : gname);
+					hmCart.put("gname", gname == null ? "其他" : gname + "(" + specName + ")");
 					hmCart.put("unit", unit == null ? "个" : unit);
 					hmCart.put("uid", uid);
 					hmCart.put("price", singleAmount);
@@ -355,12 +356,12 @@ public class OrderServiceImpl extends HmBaseService<OrderShopownBean, Integer> i
 		}
 		Integer vipStatus = (Integer) (uMap.get("vip_status"));
 		// 动态获取VIP参数 --start
-		Map<String, Object> config = getConfigByUidAndStatus(uid, vipStatus);
-		limitDayRelief = config.get("limitDayRelief") == null ? limitDayRelief : (Double) config.get("limitDayRelief");
-		limitOne = config.get("limitOne") == null ? limitOne : (Double) config.get("limitOne");
-		memberDiscount = config.get("discount") == null ? memberDiscount : (Double) config.get("discount");
-		memberDeliverfeeDiscount = config.get("riderDiscount") == null ? memberDeliverfeeDiscount
-				: (Double) config.get("riderDiscount");
+//		Map<String, Object> config = getConfigByUidAndStatus(uid, vipStatus);
+//		limitDayRelief = config.get("limitDayRelief") == null ? limitDayRelief : (Double) config.get("limitDayRelief");
+//		limitOne = config.get("limitOne") == null ? limitOne : (Double) config.get("limitOne");
+//		memberDiscount = config.get("discount") == null ? memberDiscount : (Double) config.get("discount");
+//		memberDeliverfeeDiscount = config.get("riderDiscount") == null ? memberDeliverfeeDiscount
+//				: (Double) config.get("riderDiscount");
 
 		// 动态获取VIP参数 --end
 //		memberDeliverfee = new BigDecimal(deliverfee).multiply(new BigDecimal(memberDeliverfeeDiscount))
@@ -396,16 +397,14 @@ public class OrderServiceImpl extends HmBaseService<OrderShopownBean, Integer> i
 			needPay = needPay.subtract(vipFavourable);
 			deliverfee = "￥" + memberDeliverfee;
 			deliverfeeBigDecimal = new BigDecimal(memberDeliverfee);
-
-			if ("1".equals(isSelfMention)) {
-				deliverfee = "￥" + memberSelfMentionDeliverfee;
-				deliverfeeBigDecimal = new BigDecimal(memberSelfMentionDeliverfee);
-				if (toCreateOrder) {
-					storeOrders.put("rider_status", 3);
-				}
+		}
+		if ("1".equals(isSelfMention)) {
+			deliverfee = "￥" + memberSelfMentionDeliverfee;
+			deliverfeeBigDecimal = new BigDecimal(memberSelfMentionDeliverfee);
+			if (toCreateOrder) {
+				storeOrders.put("rider_status", 3);
 			}
 		}
-
 		boolean todayCouponUse = orderDao.checkCouponOrderByUid(uid);
 		BigDecimal priceForIntegralor = needPay.add(deliverfeeBigDecimal);
 
@@ -595,18 +594,6 @@ public class OrderServiceImpl extends HmBaseService<OrderShopownBean, Integer> i
 			resMap.put("orderList", storeList);
 			resMap.put("integralPrice", integralPriceString);
 			resMap.put("marketid", marketId);
-			Map<String, Object> startAndEnd = marketDao.getStartAndEnd(marketId);
-			Object starttime = null;
-			Object endtime = null;
-			if (startAndEnd != null) {
-				starttime = startAndEnd.get("starttime");
-				endtime = startAndEnd.get("endtime");
-			}
-			if (starttime == null || endtime == null) {
-				resMap.put("marketTime", "07:00-18:30");
-			} else {
-				resMap.put("marketTime", starttime + "-" + endtime);
-			}
 			if (orderId != null) {
 				resMap.put("needCancelId", orderId);
 				resMap.put("cancelReason", "检测到您有待支付订单使用首单优惠，是否取消让该单享受优惠，直接支付视为放弃首单优惠");
@@ -907,11 +894,11 @@ public class OrderServiceImpl extends HmBaseService<OrderShopownBean, Integer> i
 				Integer uid = (Integer) rorderDetail.get("uid");
 				List<Integer> orderIds = orderDao.getOrderIdsByRoid(rorderId);
 				orderDao.updateOStatus(orderIds, 1, currentTime);
-				Integer rid = getRidFormMarket(marketId, "least");
-				if (rid != -1) {
-					// 生成骑手
-					orderDao.updateroRider(rid, rorderId);
-				}
+//				Integer rid = getRidFormMarket(marketId, "least");
+//				if (rid != -1) {
+//					// 生成骑手
+//					orderDao.updateroRider(rid, rorderId);
+//				}
 				// 生成地址
 				OrderAddressBean addressBean = addressDao.getAddressById(addressId);
 				OrderAddressOrderBean addressOrderBean = new OrderAddressOrderBean();
@@ -937,7 +924,7 @@ public class OrderServiceImpl extends HmBaseService<OrderShopownBean, Integer> i
 				// 异步处理
 				addressTask.setAddressTask(addressId, uid);
 				addressTask.setLateMarket(marketId, uid);
-				orderTask.handleOrderPush(rorderId);
+//				orderTask.handleOrderPush(rorderId);
 			}
 			return true; // 流程走完告诉支付宝不需再回调
 
