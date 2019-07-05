@@ -52,7 +52,7 @@ public interface CartBasketService {
     /**
      * 根据gid查询规格表
      */
-    List<CartGoodsResultDTO> findGoodsSpecByGid(Integer gid);
+    ResultDTO<Object> findGoodsSpecByGid(Integer gid);
 
 
 }

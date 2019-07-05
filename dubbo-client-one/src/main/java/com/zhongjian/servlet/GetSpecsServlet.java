@@ -75,6 +75,6 @@ public class GetSpecsServlet extends HttpServlet {
     }
 
     private String handle(Integer gid) {
-        return GsonUtil.GsonString(ResultUtil.getSuccess(hmBasketService.findGoodsSpecByGid(gid)));
+        return GsonUtil.GsonString(hmBasketService.findGoodsSpecByGid(gid));
     }
 }
