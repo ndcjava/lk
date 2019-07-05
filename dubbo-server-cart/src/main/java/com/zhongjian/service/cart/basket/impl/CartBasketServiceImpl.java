@@ -407,13 +407,10 @@ public class CartBasketServiceImpl extends HmBaseService<CartBasketBean, Integer
     }
 
     @Override
-    public ResultDTO<Object> findGoodsSpecByGid(Integer gid) {
+    public List<CartGoodsResultDTO> findGoodsSpecByGid(Integer gid) {
 
-        if (null == gid) {
-            return ResultUtil.getFail(CommonMessageEnum.PARAM_LOST);
-        }
         List<CartGoodsResultDTO> selectGoodsSpecByGid = this.cartGoodsSpecBean.executeListMethod(gid, "selectGoodsSpecByGid", CartGoodsResultDTO.class);
 
-        return ResultUtil.getSuccess(selectGoodsSpecByGid);
+        return selectGoodsSpecByGid;
     }
 }

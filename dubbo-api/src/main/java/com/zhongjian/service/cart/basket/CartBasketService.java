@@ -4,6 +4,9 @@ import com.zhongjian.dto.common.ResultDTO;
 import com.zhongjian.dto.cart.basket.query.CartBasketDelQueryDTO;
 import com.zhongjian.dto.cart.basket.query.CartBasketEditQueryDTO;
 import com.zhongjian.dto.cart.basket.query.CartBasketListQueryDTO;
+import com.zhongjian.dto.goods.result.CartGoodsResultDTO;
+
+import java.util.List;
 
 /**
  * @Author: ldd
@@ -49,7 +52,7 @@ public interface CartBasketService {
     /**
      * 根据gid查询规格表
      */
-    ResultDTO<Object>findGoodsSpecByGid(Integer gid);
+    List<CartGoodsResultDTO> findGoodsSpecByGid(Integer gid);
 
 
 }
