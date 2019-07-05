@@ -44,6 +44,7 @@
         <result column="price" property="totalPrice" jdbcType="VARCHAR"/>
         <result column="remark" property="remark" jdbcType="VARCHAR"/>
         <result column="unitPrice" property="unitPrice" jdbcType="VARCHAR"/>
+        <result column="specid" property="specid" jdbcType="VARCHAR"/>
     </resultMap>
 
 
@@ -52,6 +53,7 @@
        SELECT
             id,
             amount,
+            specid,
             gid,
             price,
             remark,
