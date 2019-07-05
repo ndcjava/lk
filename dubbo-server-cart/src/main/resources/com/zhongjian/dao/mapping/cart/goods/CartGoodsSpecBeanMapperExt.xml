@@ -5,7 +5,7 @@
     <resultMap id="BaseResultMapExt" type="com.zhongjian.dto.goods.result.CartGoodsResultDTO" >
         <id column="id" property="id" jdbcType="INTEGER" />
         <result column="gid" property="gid" jdbcType="INTEGER" />
-        <result column="price" property="price" jdbcType="DECIMAL" />
+        <result column="price" property="price" jdbcType="VARCHAR" />
         <result column="spec_name" property="specName" jdbcType="VARCHAR" />
     </resultMap>
 

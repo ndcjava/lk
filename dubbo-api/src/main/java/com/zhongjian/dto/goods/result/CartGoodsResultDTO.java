@@ -26,7 +26,7 @@ public class CartGoodsResultDTO implements Serializable{
     /**
      * 价格
      */
-    private BigDecimal price;
+    private String price;
 
     /**
      * 规格名
