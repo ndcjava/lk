@@ -225,7 +225,6 @@ public class CartShopownServiceImpl extends HmBaseService<CartMarketBean, Intege
                         cartBasketResultDTO.setFoodName("其他");
                         cartBasketResultDTO.setStatus(1);
                     }
-                    cartBasketResultDTO.setTotalPrice("¥" + decimalFormat.format(Double.parseDouble(cartBasketResultDTO.getTotalPrice())));
                     //判断要是没有remark备注就不需要拼接组装;
                     if (!StringUtils.isBlank(cartBasketResultDTO.getRemark())) {
                         //拼接备注信息:[名字]+备注信息
@@ -234,11 +233,11 @@ public class CartShopownServiceImpl extends HmBaseService<CartMarketBean, Intege
                     }
                     //将用户在商品下的所有总价存入list里面.
                     if (FinalDatas.ONE.toString().equals(shopownResultDTO.getStatus())) {
-                        listByClose.add(new BigDecimal(cartBasketResultDTO.getTotalPrice().substring(1)));
+                        listByClose.add(new BigDecimal(cartBasketResultDTO.getTotalPrice()));
                     } else if (FinalDatas.ZERO.toString().equals(shopownResultDTO.getStatus())) {
-                        listByOpen.add(new BigDecimal(cartBasketResultDTO.getTotalPrice().substring(1)));
+                        listByOpen.add(new BigDecimal(cartBasketResultDTO.getTotalPrice()));
                     } else if (FinalDatas.TWO.toString().equals(shopownResultDTO.getStatus())) {
-                        listByAdvence.add(new BigDecimal(cartBasketResultDTO.getTotalPrice().substring(1)));
+                        listByAdvence.add(new BigDecimal(cartBasketResultDTO.getTotalPrice()));
                     }
                 }
                 //备注信息
