@@ -3,13 +3,9 @@ package com.zhongjian.dao.entity.cart.goods;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class CartGoodsSpecBean implements Serializable{
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+public class CartGoodsSpecBean {
 
-	/**
+    /**
      * 规格id
      */
     private Integer id;
@@ -31,6 +27,7 @@ public class CartGoodsSpecBean implements Serializable{
 
     /**
      * 规格id
+     *
      * @return id 规格id
      */
     public Integer getId() {
@@ -39,6 +36,7 @@ public class CartGoodsSpecBean implements Serializable{
 
     /**
      * 规格id
+     *
      * @param id 规格id
      */
     public void setId(Integer id) {
@@ -47,6 +45,7 @@ public class CartGoodsSpecBean implements Serializable{
 
     /**
      * 商品id关联hm_goods
+     *
      * @return gid 商品id关联hm_goods
      */
     public Integer getGid() {
@@ -55,6 +54,7 @@ public class CartGoodsSpecBean implements Serializable{
 
     /**
      * 商品id关联hm_goods
+     *
      * @param gid 商品id关联hm_goods
      */
     public void setGid(Integer gid) {
@@ -63,6 +63,7 @@ public class CartGoodsSpecBean implements Serializable{
 
     /**
      * 价格
+     *
      * @return price 价格
      */
     public BigDecimal getPrice() {
@@ -71,6 +72,7 @@ public class CartGoodsSpecBean implements Serializable{
 
     /**
      * 价格
+     *
      * @param price 价格
      */
     public void setPrice(BigDecimal price) {
@@ -79,6 +81,7 @@ public class CartGoodsSpecBean implements Serializable{
 
     /**
      * 规格名
+     *
      * @return spec_name 规格名
      */
     public String getSpecName() {
@@ -87,6 +90,7 @@ public class CartGoodsSpecBean implements Serializable{
 
     /**
      * 规格名
+     *
      * @param specName 规格名
      */
     public void setSpecName(String specName) {

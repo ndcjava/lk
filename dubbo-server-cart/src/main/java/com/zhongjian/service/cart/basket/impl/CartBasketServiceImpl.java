@@ -18,6 +18,7 @@ import com.zhongjian.dto.cart.basket.query.CartBasketDelQueryDTO;
 import com.zhongjian.dto.cart.basket.query.CartBasketEditQueryDTO;
 import com.zhongjian.dto.cart.basket.query.CartBasketListQueryDTO;
 import com.zhongjian.dto.cart.basket.result.CartBasketResultDTO;
+import com.zhongjian.dto.goods.result.CartGoodsResultDTO;
 import com.zhongjian.service.cart.basket.CartBasketService;
 import com.zhongjian.util.LogUtil;
 import com.zhongjian.util.StringUtil;
@@ -402,7 +403,7 @@ public class CartBasketServiceImpl extends HmBaseService<CartBasketBean, Integer
         if (null == gid) {
             return ResultUtil.getFail(CommonMessageEnum.PARAM_LOST);
         }
-        List<CartGoodsSpecBean> selectGoodsSpecByGid = this.cartGoodsSpecBean.executeListMethod(gid, "selectGoodsSpecByGid", CartGoodsSpecBean.class);
+        List<CartGoodsResultDTO> selectGoodsSpecByGid = this.cartGoodsSpecBean.executeListMethod(gid, "selectGoodsSpecByGid", CartGoodsResultDTO.class);
 
         return ResultUtil.getSuccess(selectGoodsSpecByGid);
     }
