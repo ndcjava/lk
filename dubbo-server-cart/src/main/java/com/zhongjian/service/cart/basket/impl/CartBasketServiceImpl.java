@@ -31,6 +31,7 @@ import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -409,7 +410,11 @@ public class CartBasketServiceImpl extends HmBaseService<CartBasketBean, Integer
     @Override
     public ResultDTO<Object> findGoodsSpecByGid(Integer gid) {
 
-        List<CartGoodsSpecBean> selectGoodsSpecByGid = this.cartGoodsSpecBean.executeListMethod(gid, "selectGoodsSpecByGid", CartGoodsSpecBean.class);
+        List<CartGoodsResultDTO> selectGoodsSpecByGid = this.cartGoodsSpecBean.executeListMethod(gid, "selectGoodsSpecByGid", CartGoodsResultDTO.class);
+        for (CartGoodsResultDTO cartGoodsResultDTO : selectGoodsSpecByGid) {
+            cartGoodsResultDTO.setPrice(cartGoodsResultDTO.getPrice().toString());
+        }
+
 
         return ResultUtil.getSuccess(selectGoodsSpecByGid);
     }

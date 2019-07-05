@@ -3,9 +3,7 @@ package com.zhongjian.dao.entity.cart.goods;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class CartGoodsSpecBean implements Serializable{
-
-    private static final long serialVersionUID = 197018972999527001L;
+public class CartGoodsSpecBean {
 
     /**
      * 规格id

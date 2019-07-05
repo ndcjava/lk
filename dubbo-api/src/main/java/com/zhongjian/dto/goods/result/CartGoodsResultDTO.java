@@ -3,6 +3,7 @@ package com.zhongjian.dto.goods.result;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * @Author: ldd
@@ -10,7 +11,8 @@ import java.io.Serializable;
 @Data
 public class CartGoodsResultDTO implements Serializable{
 
-    private static final long serialVersionUID = 197018972999527001L;
+    private static final long serialVersionUID = 197018972999527002L;
+
 
     /**
      * 规格id
