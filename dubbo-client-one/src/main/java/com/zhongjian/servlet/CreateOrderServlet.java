@@ -117,23 +117,23 @@ public class CreateOrderServlet extends HttpServlet {
 			return GsonUtil.GsonString(ResultUtil.getFail(CommonMessageEnum.USER_IS_NULL));
 		}
 		// check shop status
-		OrderStatusQueryDTO orderStatusQueryDTO = new OrderStatusQueryDTO();
-		List<Integer> sidList = new ArrayList<Integer>();
-		for (int i = 0; i < sids.length; i++) {
-			sidList.add(sids[i]);
-		}
-		orderStatusQueryDTO.setPids(sidList);
-		orderStatusQueryDTO.setStatus(status);
-		ResultDTO<String> jungle = orderService.judgeHmShopownStatus(orderStatusQueryDTO);
-		String[] splits = jungle.getData().split("_");
-		String jungleString = splits[0];
-		if (jungleString.equals("1")) {
-			return GsonUtil.GsonString(ResultUtil.getFail(CommonMessageEnum.SHOP_CHANGE));
-		} else if (jungleString.equals("2")) {
-			return GsonUtil.GsonString(ResultUtil.getFail(CommonMessageEnum.SHOP_CHANGE_ADVANCE));
-		} else if (jungleString.equals("3")) {
-			return GsonUtil.GsonString(ResultUtil.getFail(CommonMessageEnum.SHOP_CHANGE_OPEN));
-		}
+//		OrderStatusQueryDTO orderStatusQueryDTO = new OrderStatusQueryDTO();
+//		List<Integer> sidList = new ArrayList<Integer>();
+//		for (int i = 0; i < sids.length; i++) {
+//			sidList.add(sids[i]);
+//		}
+//		orderStatusQueryDTO.setPids(sidList);
+//		orderStatusQueryDTO.setStatus(status);
+//		ResultDTO<String> jungle = orderService.judgeHmShopownStatus(orderStatusQueryDTO);
+//		String[] splits = jungle.getData().split("_");
+//		String jungleString = splits[0];
+//		if (jungleString.equals("1")) {
+//			return GsonUtil.GsonString(ResultUtil.getFail(CommonMessageEnum.SHOP_CHANGE));
+//		} else if (jungleString.equals("2")) {
+//			return GsonUtil.GsonString(ResultUtil.getFail(CommonMessageEnum.SHOP_CHANGE_ADVANCE));
+//		} else if (jungleString.equals("3")) {
+//			return GsonUtil.GsonString(ResultUtil.getFail(CommonMessageEnum.SHOP_CHANGE_OPEN));
+//		}
 		Integer isAppointment = 0;
 		if (status == 2) {
 			isAppointment = 1;

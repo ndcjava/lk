@@ -120,24 +120,24 @@ public class PreviewOrderServlet extends HttpServlet {
 			return GsonUtil.GsonString(ResultUtil.getFail(CommonMessageEnum.USER_IS_NULL));
 		}
 		//check shop status
-		OrderStatusQueryDTO orderStatusQueryDTO = new OrderStatusQueryDTO();
-		List<Integer> sidList = new ArrayList<Integer>();
-		for (int i = 0; i < sids.length; i++) {
-		 sidList.add(sids[i]);	
-		}
-		orderStatusQueryDTO.setPids(sidList);
-		orderStatusQueryDTO.setStatus(status);
-		ResultDTO<String> jungle = orderService.judgeHmShopownStatus(orderStatusQueryDTO);
-		String[] splits = jungle.getData().split("_");
-		String jungleString = splits[0];
-		if (jungleString.equals("1")) {
-			return GsonUtil.GsonString(ResultUtil.getFail(CommonMessageEnum.SHOP_CHANGE));
-		}else if (jungleString.equals("2")) {
-			return GsonUtil.GsonString(ResultUtil.getFail(CommonMessageEnum.SHOP_CHANGE_ADVANCE));
-		}else if (jungleString.equals("3")){
-			return GsonUtil.GsonString(ResultUtil.getFail(CommonMessageEnum.SHOP_CHANGE_OPEN));
-		}
-		String marketIdString = splits[1];
+//		OrderStatusQueryDTO orderStatusQueryDTO = new OrderStatusQueryDTO();
+//		List<Integer> sidList = new ArrayList<Integer>();
+//		for (int i = 0; i < sids.length; i++) {
+//		 sidList.add(sids[i]);	
+//		}
+//		orderStatusQueryDTO.setPids(sidList);
+//		orderStatusQueryDTO.setStatus(status);
+//		ResultDTO<String> jungle = orderService.judgeHmShopownStatus(orderStatusQueryDTO);
+//		String[] splits = jungle.getData().split("_");
+//		String jungleString = splits[0];
+//		if (jungleString.equals("1")) {
+//			return GsonUtil.GsonString(ResultUtil.getFail(CommonMessageEnum.SHOP_CHANGE));
+//		}else if (jungleString.equals("2")) {
+//			return GsonUtil.GsonString(ResultUtil.getFail(CommonMessageEnum.SHOP_CHANGE_ADVANCE));
+//		}else if (jungleString.equals("3")){
+//			return GsonUtil.GsonString(ResultUtil.getFail(CommonMessageEnum.SHOP_CHANGE_OPEN));
+//		}
+//		String marketIdString = splits[1];
 		Integer isAppointment = 0;
 		if (status == 2) {
 			isAppointment = 1;
@@ -147,7 +147,6 @@ public class PreviewOrderServlet extends HttpServlet {
 		CartAddressQueryDTO cartAddressQueryDTO = new CartAddressQueryDTO();
 		cartAddressQueryDTO.setId(0);
 		cartAddressQueryDTO.setUid(uid);
-		cartAddressQueryDTO.setMarketId(Integer.valueOf(marketIdString));
 		CartAddressResultDTO address = addressServie.previewOrderAddress(cartAddressQueryDTO);
 		Map<String, Object> orderDetail = orderService.previewOrCreateOrder(uid, sids, type, extra, isSelfMention, false, null, null, isAppointment);
 		//请求服务获取预览订单数据--end
