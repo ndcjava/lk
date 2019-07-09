@@ -12,16 +12,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserLocalServiceImpl extends HmBaseService<UserBean, Integer> implements UserLocalService {
 
-	@Autowired
-	private DistributedLock zkLock;
 
 	@Override
 	public Integer add(UserBean user) {
 		if (StringUtil.isNotBlank(user.getUnionid())) {
-			String lockName = null;
 			try {
-				// zookeeper加锁(针对uid加锁)
-				lockName = zkLock.lock(user.getUnionid());
 				UserBean findUserByUnionId = this.dao.executeSelectOneMethod(user.getUnionid(), "findUserByUnionId",
 						UserBean.class);
 				if (null == findUserByUnionId) {
@@ -42,13 +37,7 @@ public class UserLocalServiceImpl extends HmBaseService<UserBean, Integer> imple
 				}
 			} catch (Exception e) {
 				return 0;
-			} finally {
-				try {
-					zkLock.unlock(lockName);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
+			} 
 		} else {
 			return 0;
 		}
